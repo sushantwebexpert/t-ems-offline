@@ -4,12 +4,32 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'folder/inbox',
+    redirectTo: 'welcome',
     pathMatch: 'full'
   },
   {
-    path: 'folder/:id',
-    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
+    path: 'home',
+    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+  },
+  {
+    path: 'voter-add',
+    loadChildren: () => import('./pages/voter-add/voter-add.module').then( m => m.VoterAddPageModule)
+  },
+  {
+    path: 'voter-edit',
+    loadChildren: () => import('./pages/voter-edit/voter-edit.module').then( m => m.VoterEditPageModule)
+  },
+  {
+    path: 'voter-view',
+    loadChildren: () => import('./pages/voter-view/voter-view.module').then( m => m.VoterViewPageModule)
+  },
+  {
+    path: 'upload',
+    loadChildren: () => import('./pages/upload/upload.module').then( m => m.UploadPageModule)
+  },
+  {
+    path: 'welcome',
+    loadChildren: () => import('./pages/welcome/welcome.module').then( m => m.WelcomePageModule)
   }
 ];
 
