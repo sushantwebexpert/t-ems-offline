@@ -1,13 +1,129 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>voter-view</ion-title>
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start" [routerLink]="'/home'" [routerDirection]="'back'">
+      <ion-button>      
+        <ion-icon name="arrow-back"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Voter Details</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">voter-view</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+<ion-card *ngIf="voter" class="ion-no-margin ion-no-shadow">
+    <ion-card-header>
+      <ion-card-title>{{ voter.name_en }} ({{ voter.name_hi }})</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list lines="inset" class="view-table">
+        <ion-item>
+          <ion-label>Mobile</ion-label>
+          <ion-text>{{ voter.mobile_no }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Gender</ion-label>
+          <ion-text>{{ voter.gender }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Date of Birth</ion-label>
+          <ion-text>{{ voter.dob }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Whatsapp</ion-label>
+          <ion-text>{{ voter.whatsapp_no }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Email</ion-label>
+          <ion-text>{{ voter.email }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Relative Name</ion-label>
+          <ion-text>{{ voter.relative_name }}</ion-text>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Qualification</ion-label>
+          <ion-text>{{ voter.qualification }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Graduation University</ion-label>
+          <ion-text>{{ voter.graduation_university }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Graduation Year</ion-label>
+          <ion-text>{{ voter.graduation_year }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Certificate For</ion-label>
+          <ion-text>{{ voter.qualification_certificate_for }}</ion-text>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Profession</ion-label>
+          <ion-text>{{ voter.profession }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Additional Document</ion-label>
+          <ion-text>{{ voter.additional_document }}</ion-text>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Address</ion-label>
+          <ion-text>{{ voter.address }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>House No</ion-label>
+          <ion-text>{{ voter.house_no }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Gali</ion-label>
+          <ion-text>{{ voter.gali }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Village/Town</ion-label>
+          <ion-text>{{ voter.village_town }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Post Office</ion-label>
+          <ion-text>{{ voter.post_office }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Tehsil</ion-label>
+          <ion-text>{{ voter.tehsil }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>District</ion-label>
+          <ion-text>{{ voter.district }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Area</ion-label>
+          <ion-text>{{ voter.area }}</ion-text>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Vidhan Sabha</ion-label>
+          <ion-text>{{ voter.vidhan_sabha_id }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Ward</ion-label>
+          <ion-text>{{ voter.ward_id }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Mohalla</ion-label>
+          <ion-text>{{ voter.mohalla_id }}</ion-text>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Aadhaar/Voter ID</ion-label>
+          <ion-text>{{ voter.aadhaar_voter_id }}</ion-text>
+        </ion-item>
+      </ion-list>
+
+      <ion-button color="secondary" [routerLink]="['/voter-edit', voter.id]">
+        Edit Voter
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-text *ngIf="!voter">Loading...</ion-text>
 </ion-content>

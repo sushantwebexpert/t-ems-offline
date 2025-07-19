@@ -1,0 +1,17 @@
+ion-col {
+    font-size: 14px;
+}
+.head-row ion-col {
+    background: #e5e7eb;
+    text-transform: uppercase;
+    font-size: 12px;  
+}
+ion-button {
+    --ion-color-contrast: #ffffff!important;
+        font-weight: 300;
+    font-size: 12px;
+    text-transform: capitalize;
+}
+.single-row {
+    border-bottom: 1px solid #dbdbdb;
+}

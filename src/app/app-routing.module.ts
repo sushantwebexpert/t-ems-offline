@@ -16,11 +16,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/voter-add/voter-add.module').then( m => m.VoterAddPageModule)
   },
   {
-    path: 'voter-edit',
+    path: 'voter-edit/:id',
     loadChildren: () => import('./pages/voter-edit/voter-edit.module').then( m => m.VoterEditPageModule)
   },
   {
-    path: 'voter-view',
+    path: 'voter-view/:id',
     loadChildren: () => import('./pages/voter-view/voter-view.module').then( m => m.VoterViewPageModule)
   },
   {

@@ -10,7 +10,7 @@ ion-menu.md ion-content {
 }
 
 ion-menu.md ion-list {
-  padding: 20px 0;
+  padding: 10px 0;
 }
 
 ion-menu.md ion-note {
@@ -47,6 +47,7 @@ ion-menu.md ion-item {
   --padding-start: 10px;
   --padding-end: 10px;
   border-radius: 4px;
+      font-size: 14px;
 }
 
 ion-menu.md ion-item.selected {
@@ -62,7 +63,7 @@ ion-menu.md ion-item ion-icon {
 }
 
 ion-menu.md ion-item ion-label {
-  font-weight: 500;
+  font-weight: 300;
 }
 
 ion-menu.ios ion-content {

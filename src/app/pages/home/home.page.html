@@ -1,13 +1,44 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>home</ion-title>
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start" [routerLink]="'/welcome'" [routerDirection]="'back'">
+      <ion-button>      
+        <ion-icon name="home"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Voter List</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">home</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <div *ngIf="loading">
+    Loading...    
+  </div>
+  <div *ngIf="!loading">
+    <div *ngIf="voters.length > 0; else noData">
+
+      <ion-grid>
+        <ion-row class="ion-text-center ion-align-items-center head-row" color="light">
+          <ion-col size="1"><span>ID</span></ion-col>
+          <ion-col size="3"><span>Name</span></ion-col>
+          <ion-col size="3"><span>Phone</span></ion-col>
+          <ion-col size="2"><span>District</span></ion-col>
+          <ion-col size="3"><span>Actions</span></ion-col>
+        </ion-row>
+
+        <ion-row *ngFor="let voter of voters" class="ion-text-center ion-align-items-center single-row">
+          <ion-col size="1">{{ voter.id }}</ion-col>
+          <ion-col size="3">{{ voter.name_en }}</ion-col>
+          <ion-col size="3">{{ voter.mobile_no }}</ion-col>
+          <ion-col size="2">{{ voter.district }}</ion-col>
+          <ion-col size="3">
+            <ion-button size="small" color="success" [routerLink]="['/voter-view', voter.id]">View</ion-button>
+            <ion-button size="small" color="secondary" [routerLink]="['/voter-edit', voter.id]">Edit</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <ng-template #noData>
+      <ion-item>No voters found.</ion-item>
+    </ng-template>
+  </div>
 </ion-content>

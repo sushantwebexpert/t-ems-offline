@@ -1,13 +1,41 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>welcome</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="ion-padding">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">welcome</ion-title>
-    </ion-toolbar>
-  </ion-header>
+
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <h3 class="ion-no-margin">Dashboard</h3>
+      </ion-col>
+
+
+
+      <!-- Card: Add New Voter -->
+      <ion-col size="6" size-md="6">
+        <ion-card button [routerLink]="'/voter-add'" class="dashboard-card" color="secondary">
+          <ion-card-content class="ion-text-center">
+            <ion-icon name="person-add-outline" size="large"></ion-icon>
+            <h2>Add New Voter</h2>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card button class="dashboard-card" color="dark">
+          <ion-card-content class="ion-text-center">
+            <ion-icon name="cloud-upload-outline" size="large"></ion-icon>
+            <h2>Sync to Server</h2>
+          </ion-card-content>
+        </ion-card>
+
+
+      </ion-col>
+
+      <!-- Card: Sync to Server -->
+      <ion-col size="6" size-md="6" class="ion-text-center">
+          <img src="assets/bg.jpg" alt="" style="height: 550px;">
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+
 </ion-content>

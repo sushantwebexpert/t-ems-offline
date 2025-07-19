@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Mukta:wght@200;300;400;500;600;700;800&display=swap');
+:host,
+:root {
+  --font-family-base: 'Lexend', sans-serif;
+  --font-family-title: 'Lexend', sans-serif;
+  --title: #2F2F2F;
+  --mute-color: #7D8FAB;
+}
+:root {
+  --ion-safe-area-top: env(safe-area-inset-top);
+  --ion-safe-area-bottom: env(safe-area-inset-bottom);
+}
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+.sc-ion-input-md-h,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video,
+ion-title,
+ion-label,
+ion-card-title,
+ion-card-subtitle,
+.item.sc-ion-label-md-h,
+.item .sc-ion-label-md-h,
+ion-select-popover,
+ion-select,
+ion-select-option,
+ion-menu-button,
+ion-menu,
+ion-menu-controller,
+ion-menu-toggle,
+ion-action-sheet,
+ion-fab-button,
+ion-fab,
+ion-fab-list,
+ion-refresher-content,
+ion-refresher,
+ion-alert,
+ion-back-button,
+ion-loading,
+ion-toast,
+ion-card,
+ion-card-content,
+ion-card-header,
+ion-card-subtitle,
+ion-card-title,
+ion-item-option,
+ion-item-options,
+ion-item-sliding,
+ion-infinite-scroll-content,
+ion-infinite-scroll,
+ion-reorder,
+ion-reorder-group,
+ion-segment-button,
+ion-segment,
+ion-tab-button,
+ion-tab-bar,
+ion-chip,
+ion-modal,
+ion-popover,
+ion-searchbar,
+ion-action-sheet-controller,
+ion-alert-controller,
+ion-anchor,
+ion-loading-controller,
+ion-modal-controller,
+ion-picker-controller,
+ion-popover-controller,
+ion-toast-controller,
+ion-app,
+ion-buttons,
+ion-content,
+ion-footer,
+ion-header,
+ion-router-outlet,
+ion-title,
+ion-toolbar,
+ion-nav,
+ion-nav-link,
+ion-nav-pop,
+ion-nav-push,
+ion-nav-set-root,
+ion-route,
+ion-route-redirect,
+ion-router,
+ion-router-link,
+ion-avatar,
+ion-badge,
+ion-thumbnail,
+ion-col,
+ion-grid,
+ion-row,
+ion-slide,
+ion-slides,
+ion-checkbox,
+ion-img,
+ion-input,
+ion-progress-bar,
+ion-range,
+ion-split-pane,
+ion-text,
+ion-textarea,
+ion-toggle,
+ion-virtual-scroll,
+ion-picker,
+ion-datetime,
+ion-picker-column,
+ion-radio,
+ion-radio-group,
+ion-spinner,
+ion-backdrop,
+ion-ripple-effect,
+ion-button,
+ion-icon,
+ion-item-divider,
+ion-item-group,
+ion-note,
+ion-skeleton-text,
+ion-item,
+ion-label,
+ion-list,
+ion-list-header {
+  font-family: var(--font-family-base);
+  line-height: 1.8;
+}
+ion-title {
+    font-weight: 300;
+}
+.section-title {
+    font-weight: 600;
+    font-size: 1rem;
+    border-bottom: 1px solid #dcdcdc;
+    padding-bottom: 6px;
+    margin-bottom: 1rem;
+}
+
+ion-select,
+ion-textarea.sc-ion-textarea-md-h,
+ion-input.sc-ion-input-md-h {
+  font-size: 15px;
+  font-weight: 400;
+  margin-bottom: 25px;
+  --placeholder-font-weight: 300;
+}
+ion-select::placeholder,
+ion-textarea.sc-ion-textarea-md-h::placeholder,
+ion-input.sc-ion-input-md-h input::placeholder{
+    font-size: 14px;
+    font-weight: 300;
+}
+ion-select.md {
+  font-size: 14px;--highlight-color: inherit;
+}
+.app-loader {
+  --min-width: 200px;
+}
+.ion-no-shadow {
+  box-shadow: none;
+  --box-shadow: none;
+}

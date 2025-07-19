@@ -1,50 +1,122 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>voter-add</ion-title>
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start" [routerLink]="'/welcome'" [routerDirection]="'back'">
+      <ion-button>      
+        <ion-icon name="home"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Add Voter</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content class="ion-padding">
   <form [formGroup]="voterForm" (ngSubmit)="onSubmit()">
-    <ion-list>
-      <ion-item>
-        <ion-label position="stacked">Name (English)</ion-label>
-        <ion-input formControlName="name_en"></ion-input>
-      </ion-item>
+    <ion-grid>
+      <ion-row>
+          <ion-col size="12"><h3 class="section-title">Personal Information</h3></ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-input label="Name (English)" label-placement="stacked" fill="outline" placeholder="Enter name in English" formControlName="name_en"></ion-input>
+          </ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-input label="Name (Hindi)" label-placement="stacked" fill="outline" placeholder="Enter name in Hindi" formControlName="name_hi"></ion-input>
+          </ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-input label="Mobile No" label-placement="stacked" fill="outline" type="tel" placeholder="Enter mobile number" formControlName="mobile_no"></ion-input>
+          </ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-select label="Gender" label-placement="stacked" fill="outline" formControlName="gender">
+                <ion-select-option value="male">Male</ion-select-option>
+                <ion-select-option value="female">Female</ion-select-option>
+                <ion-select-option value="other">Other</ion-select-option>
+            </ion-select>
+          </ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-input type="date" label="Date of Birth" label-placement="stacked" fill="outline" presentation="date" formControlName="dob"></ion-input>
+          </ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-input label="WhatsApp No" label-placement="stacked" fill="outline" type="tel" placeholder="Enter WhatsApp number" formControlName="whatsapp_no"></ion-input>
+          </ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-input label="Email" label-placement="stacked" fill="outline" type="email" placeholder="Enter email" formControlName="email"></ion-input>
+          </ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-input label="Relative Name" label-placement="stacked" fill="outline" placeholder="Enter relative's name" formControlName="relative_name"></ion-input>
+          </ion-col>
+          <ion-col size="12"><h3 class="section-title">Education & Profession</h3></ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-input label="Qualification" label-placement="stacked" fill="outline" placeholder="Enter qualification" formControlName="qualification"></ion-input>
+          </ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-input label="Graduation University" label-placement="stacked" fill="outline" placeholder="Enter university name" formControlName="graduation_university"></ion-input>
+          </ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-input label="Graduation Year" label-placement="stacked" fill="outline" type="number" placeholder="Enter graduation year" formControlName="graduation_year"></ion-input>
+          </ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-input label="Qualification Certificate For" label-placement="stacked" fill="outline" placeholder="Enter certificate info" formControlName="qualification_certificate_for"></ion-input>
+          </ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-input label="Profession" label-placement="stacked" fill="outline" placeholder="Enter profession" formControlName="profession"></ion-input>
+          </ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-input label="Additional Document" label-placement="stacked" fill="outline" placeholder="Enter document details" formControlName="additional_document"></ion-input>
+          </ion-col>
+          <ion-col size="12"><h3 class="section-title">Address Details</h3></ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-input label="Address" label-placement="stacked" fill="outline" placeholder="Enter full address" formControlName="address"></ion-input>
+          </ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-input label="House No" label-placement="stacked" fill="outline" placeholder="Enter house number" formControlName="house_no"></ion-input>
+          </ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-input label="Gali" label-placement="stacked" fill="outline" placeholder="Enter gali name" formControlName="gali"></ion-input>
+          </ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-input label="Village/Town" label-placement="stacked" fill="outline" placeholder="Enter village or town" formControlName="village_town"></ion-input>
+          </ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-input label="Post Office" label-placement="stacked" fill="outline" placeholder="Enter post office" formControlName="post_office"></ion-input>
+          </ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-input label="Tehsil" label-placement="stacked" fill="outline" placeholder="Enter tehsil" formControlName="tehsil"></ion-input>
+          </ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-input label="District" label-placement="stacked" fill="outline" placeholder="Enter district" formControlName="district"></ion-input>
+          </ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-input label="Area" label-placement="stacked" fill="outline" placeholder="Enter area type" formControlName="area"></ion-input>
+          </ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-select label="Vidhan Sabha" label-placement="stacked" fill="outline" formControlName="vidhan_sabha_id">
+                <!-- Options should be loaded dynamically -->
+                <ion-select-option value="">Select a Vidhan Sabha</ion-select-option>
+            </ion-select>
+          </ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-select label="Ward" label-placement="stacked" fill="outline" formControlName="ward_id">
+                <!-- Options should be loaded dynamically -->
+                <ion-select-option value="">Select a Ward</ion-select-option>
+            </ion-select>
+          </ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-select label="Mohalla" label-placement="stacked" fill="outline" formControlName="mohalla_id">
+                <!-- Options should be loaded dynamically -->
+                <ion-select-option value="">Select a Mohalla</ion-select-option>
+            </ion-select>
+          </ion-col>
+          <ion-col size="12"><h3 class="section-title">Identity Details</h3></ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-input label="Aadhaar / Voter ID" label-placement="stacked" fill="outline" placeholder="Enter ID" formControlName="aadhaar_voter_id"></ion-input>
+          </ion-col>
+      </ion-row>
+      <ion-row>
+          <ion-col size="12" size-sm="4">
+             <ion-button expand="full" type="submit">Submit</ion-button>
+          </ion-col>
+          <ion-col size="12" size-sm="4">
+             <ion-button expand="full" type="reset" color="danger">Reset</ion-button>
+          </ion-col>
+      </ion-row>
 
-      <ion-item>
-        <ion-label position="stacked">Name (Hindi)</ion-label>
-        <ion-input formControlName="name_hi"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="stacked">Mobile No.</ion-label>
-        <ion-input type="tel" formControlName="mobile_no"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="stacked">Gender</ion-label>
-        <ion-select formControlName="gender">
-          <ion-select-option value="Male">Male</ion-select-option>
-          <ion-select-option value="Female">Female</ion-select-option>
-          <ion-select-option value="Other">Other</ion-select-option>
-        </ion-select>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="stacked">Date of Birth</ion-label>
-        <ion-datetime displayFormat="DD-MM-YYYY" formControlName="dob"></ion-datetime>
-      </ion-item>
-
-       <ion-item>
-        <ion-label position="stacked">Mobile No.</ion-label>
-        <ion-input formControlName="name_en"></ion-input>
-      </ion-item>
-
-      <!-- ... Repeat for all fields in [disabled]="!voterForm.valid"similar style -->
-
-      <!-- Final Submit Button -->
-      <ion-button expand="full" type="submit" >Submit</ion-button>
-    </ion-list>
+    </ion-grid>
   </form>
 </ion-content>

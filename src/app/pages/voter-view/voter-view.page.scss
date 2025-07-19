@@ -1,0 +1,11 @@
+ion-list.view-table  {
+    display: flex;
+    flex-wrap: wrap;
+}
+.view-table ion-item {
+    width: 50%;
+    font-size: 14px;
+}
+.view-table ion-text {
+    font-weight: 300;
+}

@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController, ToastController, ActionSheetController, LoadingController } from '@ionic/angular';
-import { ApiService } from '../../api/api.service';
+import { ToastController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { EventsService } from '../../api/events.service';
-import { StorageService } from '../../api/storage.service';
+declare const window: any;
 
 @Component({
   selector: 'app-voter-add',
@@ -16,23 +14,18 @@ export class VoterAddPage implements OnInit {
   voterForm: FormGroup;
 
   constructor(
-    private storage: StorageService,
-    private events: EventsService,
-    private actionSheetCtrl: ActionSheetController,
     private toastController: ToastController,
     private router: Router,
     private fb: FormBuilder,
-    private alertController: AlertController,
-    private api: ApiService,
     private loadingCtrl: LoadingController
   ) {
     this.voterForm = this.fb.group({
       name_en: ['', Validators.required],
       name_hi: [''],
       mobile_no: ['', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]],
-      gender: ['', Validators.required],
+      gender: ['male'],
       dob: [''],
-      whatsapp_no: [''],
+      whatsapp_no: ['', [Validators.pattern(/^[6-9]\d{9}$/)]],
       email: ['', [Validators.email]],
       relative_name: [''],
       qualification: [''],
@@ -49,23 +42,62 @@ export class VoterAddPage implements OnInit {
       tehsil: [''],
       district: [''],
       area: [''],
-      vidhan_sabha_id: ['', Validators.required],
-      ward_id: ['', Validators.required],
-      mohalla_id: ['', Validators.required],
+      vidhan_sabha_id: [''],
+      ward_id: [''],
+      mohalla_id: [''],
       aadhaar_voter_id: [''],
     });
   }
 
   ngOnInit() {}
 
-  onSubmit() {
+  async onSubmit() {
     if (this.voterForm.valid) {
+      this.showLoading();
       const formData = this.voterForm.value;
       console.log('Submitting Voter:', formData);
-      // Call storage or API service here
+
+      (window as any).electronAPI.insertVoter(formData)
+      .then((result:any) => {
+        console.log('Inserted:', result);
+        this.presentToast('secondary', 'Voter added successfully!');
+        this.voterForm.reset();
+        this.router.navigate(['/welcome']);
+      })
+      .catch((err:any) => {
+        console.error('Insert Error:', err);
+        this.presentToast('dark', 'Somthing went wrong!');
+      });
     } else {
       console.log('Form is invalid');
     }
+
+    // setTimeout(() => {
+    //   this.presentToast('secondary', 'Voter added successfully!');
+    //   this.router.navigate(['/welcome']);
+    // }, 3500);
+  }
+
+  async showLoading() {
+    const loading = await this.loadingCtrl.create({
+      cssClass: 'app-loader',
+      message: 'Saving...',
+      duration: 3000,
+      backdropDismiss: true
+    });
+
+    loading.present();
+  }
+
+  async presentToast(colorCode:any, msg: any) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 1500,
+      position: 'bottom',
+      color : colorCode
+    });
+
+    await toast.present();
   }
 
 }
