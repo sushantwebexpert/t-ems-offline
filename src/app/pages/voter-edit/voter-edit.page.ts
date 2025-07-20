@@ -13,6 +13,7 @@ declare const window: any;
 export class VoterEditPage implements OnInit {
   voterId: any;
   loading: Boolean = true;
+  loadingCtrl2: any;
   voterForm: FormGroup;
 
   constructor(
@@ -94,9 +95,6 @@ export class VoterEditPage implements OnInit {
     } catch (error) {
       console.error('Failed to load voter', error);
     }
-    // let v:any = `{"name_en":"Sushant","name_hi":"anshu","mobile_no":"9876543210","gender":"male","dob":"2025-07-18","whatsapp_no":"8884234234","email":"sss@dfmfgh.gfhg","relative_name":"jhj","qualification":"ghfgh","graduation_university":"fghf","graduation_year":2016,"qualification_certificate_for":"hfghjhj","profession":"dfgg","additional_document":"dg","address":"jghj","house_no":"ghjghj","gali":"ghjghj","village_town":"ghjghj","post_office":"ghj","tehsil":"ghjghj","district":"mbnmbnm","area":"bn,m,g","vidhan_sabha_id":"","ward_id":"","mohalla_id":"","aadhaar_voter_id":"4234324"}`;
-    // let _voter = JSON.parse(v);
-
       
   }
 
@@ -104,39 +102,34 @@ export class VoterEditPage implements OnInit {
     if (this.voterForm.valid) {
       this.showLoading();
       const formData = this.voterForm.value;
-      console.log('Submitting Voter:', formData);
 
-      (window as any).electronAPI.updateVoter(this.voterId, formData)
-      .then((result:any) => {
-        console.log('Updated:', result);
-        this.presentToast('secondary', 'Voter updated successfully!');
-        this.router.navigate(['/welcome']);
-      })
-      .catch((err:any) => {
-        console.error('Insert Error:', err);
-        this.presentToast('dark', 'Somthing went wrong!');
-      });
+      setTimeout(() => {
 
+          (window as any).electronAPI.updateVoter(this.voterId, formData)
+          .then((result:any) => {
+            this.loadingCtrl2.dismiss();
+            this.presentToast('secondary', 'Voter updated successfully!');
+            this.router.navigate(['/welcome']);
+          })
+          .catch((err:any) => {
+            this.presentToast('dark', 'Somthing went wrong!');
+          });
+
+      }, 1500);
 
     } else {
       console.log('Form is invalid');
     }
-
-    // setTimeout(() => {
-    //   this.presentToast('secondary', 'Voter updated successfully!');
-    //   this.router.navigate(['/welcome']);
-    // }, 3500);
   }
 
   async showLoading() {
-    const loading = await this.loadingCtrl.create({
+    this.loadingCtrl2 = await this.loadingCtrl.create({
       cssClass: 'app-loader',
       message: 'Saving...',
-      duration: 3000,
       backdropDismiss: true
     });
 
-    loading.present();
+    this.loadingCtrl2.present();
   }
 
   async presentToast(colorCode:any, msg: any) {

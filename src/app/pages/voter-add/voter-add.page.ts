@@ -12,7 +12,7 @@ declare const window: any;
 export class VoterAddPage implements OnInit {
 
   voterForm: FormGroup;
-
+  loadingCtrl2: any;
   constructor(
     private toastController: ToastController,
     private router: Router,
@@ -55,38 +55,35 @@ export class VoterAddPage implements OnInit {
     if (this.voterForm.valid) {
       this.showLoading();
       const formData = this.voterForm.value;
-      console.log('Submitting Voter:', formData);
+      
+      setTimeout(() => {
 
-      (window as any).electronAPI.insertVoter(formData)
-      .then((result:any) => {
-        console.log('Inserted:', result);
-        this.presentToast('secondary', 'Voter added successfully!');
-        this.voterForm.reset();
-        this.router.navigate(['/welcome']);
-      })
-      .catch((err:any) => {
-        console.error('Insert Error:', err);
-        this.presentToast('dark', 'Somthing went wrong!');
-      });
+          (window as any).electronAPI.insertVoter(formData)
+          .then((result:any) => {
+            this.loadingCtrl2.dismiss();
+            this.presentToast('secondary', 'Voter added successfully!');
+            this.voterForm.reset();
+            this.router.navigate(['/welcome']);
+          })
+          .catch((err:any) => {
+            this.presentToast('dark', 'Somthing went wrong!');
+          });
+
+      }, 1500);
+
     } else {
       console.log('Form is invalid');
     }
-
-    // setTimeout(() => {
-    //   this.presentToast('secondary', 'Voter added successfully!');
-    //   this.router.navigate(['/welcome']);
-    // }, 3500);
   }
 
   async showLoading() {
-    const loading = await this.loadingCtrl.create({
+    this.loadingCtrl2 = await this.loadingCtrl.create({
       cssClass: 'app-loader',
       message: 'Saving...',
-      duration: 3000,
       backdropDismiss: true
     });
 
-    loading.present();
+    this.loadingCtrl2.present();
   }
 
   async presentToast(colorCode:any, msg: any) {

@@ -8,6 +8,10 @@ const db = new Database(dbPath);
 db.exec(`
   CREATE TABLE IF NOT EXISTS voters (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    entry_by TEXT,
+    created_at TEXT,
+    updated_at TEXT,
+    is_synced INTEGER DEFAULT 0,
     voter TEXT
   )
 `);

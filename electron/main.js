@@ -11,10 +11,11 @@ function createWindow() {
       contextIsolation: true,
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false
-    }
+    },
+    icon: path.join(__dirname, 'icon/favicon.ico')
   });
-  win.loadFile(path.join(__dirname, '../www/index.html')); // IMPORTANT
-  // win.loadURL('http://localhost:8100');
+  // win.loadFile(path.join(__dirname, '../www/index.html')); // IMPORTANT
+  win.loadURL('http://localhost:8100');
 }
 
 app.whenReady().then(createWindow);

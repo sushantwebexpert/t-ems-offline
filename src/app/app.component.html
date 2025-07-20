@@ -2,10 +2,11 @@
   <ion-split-pane contentId="main-content">
     <ion-menu contentId="main-content" type="overlay" style="width: 256px;">
       <ion-content>
-        <ion-list id="inbox-list">
+        <ion-list id="inbox-list" lines="none">
           <ion-list-header>EMS</ion-list-header>
           <ion-note>hi&#64; Admin</ion-note>
 
+          <div *ngIf="isAuth">
             @for (p of appPages; track p; let i = $index) {
               <ion-menu-toggle auto-hide="false">
                 <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
@@ -14,6 +15,21 @@
                 </ion-item>
               </ion-menu-toggle>
             }
+              <ion-menu-toggle auto-hide="false" style="cursor: pointer;color: #8b8888;">
+                <ion-item (click)="logOut()" lines="none" detail="false" routerLinkActive="selected">
+                    <ion-icon slot="start" name="exit-outline" aria-hidden="true"></ion-icon>
+                    <ion-label>Logout</ion-label>
+                </ion-item>
+              </ion-menu-toggle>
+          </div>
+          <div *ngIf="!isAuth">
+              <ion-menu-toggle auto-hide="false">
+                <ion-item routerDirection="root" [routerLink]="'/login'" lines="none" detail="false" routerLinkActive="selected">
+                  <ion-icon aria-hidden="true" slot="start" [ios]="'power-outline'" [md]="'power-sharp'"></ion-icon>
+                  <ion-label>Login</ion-label>
+                </ion-item>
+              </ion-menu-toggle>
+          </div>
         </ion-list>
       </ion-content>
     </ion-menu>

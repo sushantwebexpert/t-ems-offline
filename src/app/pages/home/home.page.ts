@@ -45,7 +45,6 @@ export class HomePage implements OnInit {
                   console.error(`Invalid JSON for ID ${row.id}`, e);
                 }
               });
-              console.log(this.voters);
 
               this.loading = false;
          }
