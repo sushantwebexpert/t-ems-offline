@@ -16,6 +16,16 @@ export class VoterEditPage implements OnInit {
   loadingCtrl2: any;
   voterForm: FormGroup;
 
+  districts: any[] = [];
+  vidhanSabhas: any[] = [];
+  wards: any[] = [];
+  mohallas: any[] = [];
+
+  selectedDistrict: string = '';
+  selectedVS: string = '';
+  selectedWard: string = '';
+  selectedMohalla: string = '';
+
   constructor(
     private route: ActivatedRoute,
     private toastController: ToastController,
@@ -45,12 +55,13 @@ export class VoterEditPage implements OnInit {
       village_town: [''],
       post_office: [''],
       tehsil: [''],
-      district: [''],
+      district: ['', Validators.required],
       area: [''],
       vidhan_sabha_id: [''],
       ward_id: [''],
       mohalla_id: [''],
       aadhaar_voter_id: [''],
+      voter_uid: [''],
     });
   }
 
@@ -61,6 +72,7 @@ export class VoterEditPage implements OnInit {
   async setVoters() {
     try {
       const data = await (window as any).electronAPI.getVoterById(this.voterId);
+      this.districts = await (window as any).electronAPI.getDistricts();
       if (data?.voter) {
         let _voter = JSON.parse(data.voter);
 
@@ -84,11 +96,30 @@ export class VoterEditPage implements OnInit {
         this.voterForm.controls['village_town'].setValue(_voter.village_town);
         this.voterForm.controls['post_office'].setValue(_voter.post_office);
         this.voterForm.controls['tehsil'].setValue(_voter.tehsil);
-        this.voterForm.controls['district'].setValue(_voter.district);
-        this.voterForm.controls['area'].setValue(_voter.area);
-        this.voterForm.controls['vidhan_sabha_id'].setValue(_voter.vidhan_sabha_id);
-        this.voterForm.controls['ward_id'].setValue(_voter.ward_id);
-        this.voterForm.controls['mohalla_id'].setValue(_voter.mohalla_id);
+        this.voterForm.controls['voter_uid'].setValue(_voter.voter_uid);
+
+        if(_voter.district) {
+          this.voterForm.controls['district'].setValue(_voter.district);
+          this.onDistrictChange(_voter.district);
+        }
+        if(_voter.vidhan_sabha_id) {
+          setTimeout(() => {
+            this.onVSChange(_voter.vidhan_sabha_id);
+            this.voterForm.controls['vidhan_sabha_id'].setValue(_voter.vidhan_sabha_id);
+          }, 400);
+        }
+        if(_voter.ward_id) {
+          setTimeout(() => {
+            this.onWardChange(_voter.ward_id);
+            this.voterForm.controls['ward_id'].setValue(_voter.ward_id);
+          }, 600);
+        }
+        if(_voter.mohalla_id) {
+          setTimeout(() => {
+            this.onMohallaChange(_voter.mohalla_id);
+            this.voterForm.controls['mohalla_id'].setValue(_voter.mohalla_id);
+          }, 800);
+        }
         this.voterForm.controls['aadhaar_voter_id'].setValue(_voter.aadhaar_voter_id);
 
       }
@@ -98,9 +129,66 @@ export class VoterEditPage implements OnInit {
       
   }
 
+  async onDistrictChange(district_id: string) {
+    this.selectedDistrict = district_id;
+    console.log(district_id);
+    
+    this.vidhanSabhas = await (window as any).electronAPI.getVidhanSabhas(district_id);
+    console.log(this.vidhanSabhas);
+    
+    this.wards = [];
+    this.mohallas = [];
+    this.voterForm.controls['area'].setValue('');
+  }
+
+  async onVSChange(vs_id: string) {
+    this.selectedVS = vs_id;
+    this.wards = await (window as any).electronAPI.getWards(vs_id);
+    console.log(this.wards);
+
+    this.mohallas = [];
+    this.voterForm.controls['area'].setValue('');
+  }
+
+  async onWardChange(ward_id: string) {
+    this.selectedWard = ward_id;
+    this.mohallas = await (window as any).electronAPI.getMohallas(ward_id);
+    console.log(this.mohallas);
+    this.voterForm.controls['area'].setValue('');
+  }
+
+  async onMohallaChange(mohalla_id: any) {
+    console.log(mohalla_id);
+    const selected = this.mohallas.find(m => m.id === mohalla_id);
+    const _area = selected?.area || '';
+    this.voterForm.controls['area'].setValue(_area);
+    console.log(_area);
+    
+  }
+
+  generateVoterUID(voter: any): string {
+    const phone = voter.mobile_no || '00000';
+    const last5 = phone.slice(-5);
+    const created = new Date(voter.created_at || Date.now())
+      .toISOString()
+      .replace(/[-:.TZ]/g, '')
+      .slice(0, 8);
+    const namePart = (voter.name_en || 'XXX').replace(/[^A-Z]/gi, '').slice(0, 4).toUpperCase();
+    return `V-${last5}-${created}-${namePart}`;
+  }
+
   async onSubmit() {
     if (this.voterForm.valid) {
       this.showLoading();
+      
+      if(!this.voterForm.value.voter_uid) {
+        let uid = this.generateVoterUID(this.voterForm.value);
+        if(uid) {
+          this.voterForm.controls['voter_uid'].setValue(uid);
+        }
+        console.log(uid);
+      }
+      
       const formData = this.voterForm.value;
 
       setTimeout(() => {

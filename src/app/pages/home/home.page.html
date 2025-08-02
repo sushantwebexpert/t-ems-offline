@@ -20,7 +20,7 @@
           <ion-col size="1"><span>ID</span></ion-col>
           <ion-col size="3"><span>Name</span></ion-col>
           <ion-col size="3"><span>Phone</span></ion-col>
-          <ion-col size="2"><span>District</span></ion-col>
+          <ion-col size="2"><span>Address</span></ion-col>
           <ion-col size="3"><span>Actions</span></ion-col>
         </ion-row>
 
@@ -28,7 +28,7 @@
           <ion-col size="1">{{ voter.id }}</ion-col>
           <ion-col size="3">{{ voter.name_en }}</ion-col>
           <ion-col size="3">{{ voter.mobile_no }}</ion-col>
-          <ion-col size="2">{{ voter.district }}</ion-col>
+          <ion-col size="2">{{ voter.address }}</ion-col>
           <ion-col size="3">
             <ion-button size="small" color="success" [routerLink]="['/voter-view', voter.id]">View</ion-button>
             <ion-button size="small" color="secondary" [routerLink]="['/voter-edit', voter.id]">Edit</ion-button>

@@ -13,6 +13,17 @@ export class VoterAddPage implements OnInit {
 
   voterForm: FormGroup;
   loadingCtrl2: any;
+
+  districts: any[] = [];
+  vidhanSabhas: any[] = [];
+  wards: any[] = [];
+  mohallas: any[] = [];
+
+  selectedDistrict: string = '';
+  selectedVS: string = '';
+  selectedWard: string = '';
+  selectedMohalla: string = '';
+
   constructor(
     private toastController: ToastController,
     private router: Router,
@@ -46,16 +57,73 @@ export class VoterAddPage implements OnInit {
       ward_id: [''],
       mohalla_id: [''],
       aadhaar_voter_id: [''],
+      voter_uid: [''],
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    setTimeout(async () => {
+      this.districts = await (window as any).electronAPI.getDistricts();
+      console.log(this.districts);
+    }, 1000);
+  }
+
+  async onDistrictChange(district_id: string) {
+    this.selectedDistrict = district_id;
+    console.log(district_id);
+    
+    this.vidhanSabhas = await (window as any).electronAPI.getVidhanSabhas(district_id);
+    console.log(this.vidhanSabhas);
+    
+    this.wards = [];
+    this.mohallas = [];
+    this.voterForm.controls['area'].setValue('');
+  }
+
+  async onVSChange(vs_id: string) {
+    this.selectedVS = vs_id;
+    this.wards = await (window as any).electronAPI.getWards(vs_id);
+    console.log(this.wards);
+
+    this.mohallas = [];
+    this.voterForm.controls['area'].setValue('');
+  }
+
+  async onWardChange(ward_id: string) {
+    this.selectedWard = ward_id;
+    this.mohallas = await (window as any).electronAPI.getMohallas(ward_id);
+    console.log(this.mohallas);
+    this.voterForm.controls['area'].setValue('');
+  }
+
+  async onMohallaChange(mohalla_id: any) {
+    console.log(mohalla_id);
+    const selected = this.mohallas.find(m => m.id === mohalla_id);
+    const _area = selected?.area || '';
+    this.voterForm.controls['area'].setValue(_area);
+  }
+
+  generateVoterUID(voter: any): string {
+    const phone = voter.mobile_no || '00000';
+    const last5 = phone.slice(-5);
+    const created = new Date(voter.created_at || Date.now())
+      .toISOString()
+      .replace(/[-:.TZ]/g, '')
+      .slice(0, 8);
+    const namePart = (voter.name_en || 'XXX').replace(/[^A-Z]/gi, '').slice(0, 4).toUpperCase();
+    return `V-${last5}-${created}-${namePart}`;
+  }
 
   async onSubmit() {
     if (this.voterForm.valid) {
       this.showLoading();
       const formData = this.voterForm.value;
-      
+
+     let uid = this.generateVoterUID(this.voterForm.value);
+     if(uid) {
+      this.voterForm.controls['voter_uid'].setValue(uid);
+     }
+     console.log(uid);
       setTimeout(() => {
 
           (window as any).electronAPI.insertVoter(formData)

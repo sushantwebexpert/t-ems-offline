@@ -4,7 +4,7 @@
       <ion-content>
         <ion-list id="inbox-list" lines="none">
           <ion-list-header>EMS</ion-list-header>
-          <ion-note>hi&#64; Admin</ion-note>
+          <ion-note style="font-size: 14px;">{{app_user.email}} </ion-note>
 
           <div *ngIf="isAuth">
             @for (p of appPages; track p; let i = $index) {

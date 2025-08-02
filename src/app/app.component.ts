@@ -17,6 +17,7 @@ export class AppComponent {
     { title: 'Sync to Server', url: '/upload', icon: 'cloud-upload' }
   ];
   isAuth: Boolean = false;
+  app_user:any=[];
   constructor(private router: Router,private alertController: AlertController, private events: EventsService) {
     this.checkAuth();
     this.events.subscribe('user:updated', (data:any) => {
@@ -28,9 +29,12 @@ export class AppComponent {
     let _eu = localStorage.getItem('ems_app_user');
     if(_eu) {
       this.isAuth = true;
+      this.app_user = JSON.parse(_eu);
     } else {
       this.isAuth = false;
     }
+    console.log(this.app_user);
+    
   }
 
   async logOut() {

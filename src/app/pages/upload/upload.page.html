@@ -9,11 +9,42 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+
+  <div>
+    <table class="sync-table" style="width: 100%;">
+      <tr>
+        <td>
+            
+            <ion-button color="primary" (click)="syncToServer()" *ngIf="!srvrSync" class="app-btn">Sync All to Server</ion-button>
+
+            <ion-button type="button" class="app-btn" *ngIf="srvrSync">
+              <ion-spinner name="circular" color="light" style="height: 20px;color: #ffffff;"></ion-spinner> Uploading...
+            </ion-button>
+ 
+            <div class="sync-msg">{{srvrMsg}}</div>
+
+
+        </td>
+        <td class="ion-text-right">
+          <ion-button color="primary" (click)="getMasters()" *ngIf="!masterSync" class="app-btn">Get Masters</ion-button>
+
+            <ion-button type="button" class="app-btn" *ngIf="masterSync">
+              <ion-spinner name="circular" color="light" style="height: 20px;color: #ffffff;"></ion-spinner> Loading...
+            </ion-button>
+
+          <div class="sync-msg">{{syncmsg}}</div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+
   <div *ngIf="loading">
     Loading...    
   </div>
   <div *ngIf="!loading">
     <div *ngIf="voters.length > 0; else noData">
+
 
       <ion-grid>
         <ion-row class="ion-text-center ion-align-items-center head-row" color="light">
@@ -21,17 +52,17 @@
           <ion-col size="3"><span>Name</span></ion-col>
           <ion-col size="3"><span>Phone</span></ion-col>
           <ion-col size="2"><span>District</span></ion-col>
-          <ion-col size="3"><span>Actions</span></ion-col>
+          <ion-col size="3"><span>Status</span></ion-col>
         </ion-row>
 
         <ion-row *ngFor="let voter of voters" class="ion-text-center ion-align-items-center single-row">
           <ion-col size="1">{{ voter.id }}</ion-col>
           <ion-col size="3">{{ voter.name_en }}</ion-col>
           <ion-col size="3">{{ voter.mobile_no }}</ion-col>
-          <ion-col size="2">{{ voter.district }}</ion-col>
+          <ion-col size="2">{{ voter.address }}</ion-col>
           <ion-col size="3">
-            <ion-button size="small" color="success" [routerLink]="['/voter-view', voter.id]">View</ion-button>
-            <ion-button size="small" color="secondary" [routerLink]="['/voter-edit', voter.id]">Edit</ion-button>
+             <ion-icon *ngIf="isUploaded(voter.id)" name="checkmark-circle" color="success"></ion-icon>
+             <ion-icon *ngIf="!isUploaded(voter.id)" name="remove-outline" color="primary"></ion-icon>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -42,3 +73,4 @@
     </ng-template>
   </div>
 </ion-content>
+<!-- i have a list of data and sending it to server to upload. in return server send me list of ids that have been uploaded. now I want to show a tick mark on the data that has been uploaded. I am working on angular - ionic project. -->

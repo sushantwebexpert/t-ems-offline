@@ -55,5 +55,4 @@ export class HomePage implements OnInit {
         this.loading = false;
       });
   }
-
 }

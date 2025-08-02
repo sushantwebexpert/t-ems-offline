@@ -80,27 +80,48 @@
             <ion-input label="Tehsil" label-placement="stacked" fill="outline" placeholder="Enter tehsil" formControlName="tehsil"></ion-input>
           </ion-col>
           <ion-col size="12" size-sm="4">
-            <ion-input label="District" label-placement="stacked" fill="outline" placeholder="Enter district" formControlName="district"></ion-input>
+            <ion-select label="District" label-placement="stacked" fill="outline" formControlName="district" (ionChange)="onDistrictChange($event.detail.value)">
+                <!-- Options should be loaded dynamically -->
+                <ion-select-option value="">Select a District</ion-select-option>
+                <ion-select-option *ngFor="let d of districts" [value]="d.id">
+                  {{ d.name_en }}
+                </ion-select-option>
+            </ion-select>
+
           </ion-col>
           <ion-col size="12" size-sm="4">
-            <ion-input label="Area" label-placement="stacked" fill="outline" placeholder="Enter area type" formControlName="area"></ion-input>
-          </ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-select label="Vidhan Sabha" label-placement="stacked" fill="outline" formControlName="vidhan_sabha_id">
+            <ion-select label="Vidhan Sabha" label-placement="stacked" fill="outline" formControlName="vidhan_sabha_id" (ionChange)="onVSChange($event.detail.value)">
                 <!-- Options should be loaded dynamically -->
                 <ion-select-option value="">Select a Vidhan Sabha</ion-select-option>
+                <ion-select-option *ngFor="let vs of vidhanSabhas" [value]="vs.id">
+                  {{ vs.name_en }}
+                </ion-select-option>
             </ion-select>
           </ion-col>
           <ion-col size="12" size-sm="4">
-            <ion-select label="Ward" label-placement="stacked" fill="outline" formControlName="ward_id">
+            <ion-select label="Ward" label-placement="stacked" fill="outline" formControlName="ward_id" (ionChange)="onWardChange($event.detail.value)">
                 <!-- Options should be loaded dynamically -->
                 <ion-select-option value="">Select a Ward</ion-select-option>
+                <ion-select-option *ngFor="let ward of wards" [value]="ward.id">
+                  {{ ward.name_en }}
+                </ion-select-option>
             </ion-select>
           </ion-col>
           <ion-col size="12" size-sm="4">
-            <ion-select label="Mohalla" label-placement="stacked" fill="outline" formControlName="mohalla_id">
+            <ion-select label="Mohalla" label-placement="stacked" fill="outline" formControlName="mohalla_id" (ionChange)="onMohallaChange($event.detail.value)">
                 <!-- Options should be loaded dynamically -->
                 <ion-select-option value="">Select a Mohalla</ion-select-option>
+                <ion-select-option *ngFor="let mohalla of mohallas" [value]="mohalla.id">
+                  {{ mohalla.name_en }}
+                </ion-select-option>
+            </ion-select>
+          </ion-col>
+          <ion-col size="12" size-sm="4">
+            <ion-select label="Area" label-placement="stacked" fill="outline" formControlName="area">
+                <!-- Options should be loaded dynamically -->
+                <ion-select-option value="">Select area type</ion-select-option>
+                <ion-select-option value="U">Urban</ion-select-option>
+                <ion-select-option value="R">Rural</ion-select-option>
             </ion-select>
           </ion-col>
           <ion-col size="12"><h3 class="section-title">Identity Details</h3></ion-col>

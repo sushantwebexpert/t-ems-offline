@@ -11,7 +11,7 @@
 <ion-content class="ion-padding">
 <ion-card *ngIf="voter" class="ion-no-margin ion-no-shadow">
     <ion-card-header>
-      <ion-card-title>{{ voter.name_en }} ({{ voter.name_hi }})</ion-card-title>
+      <ion-card-title>{{ voter.name_en }} ({{ voter.name_hi }}) <small style="color: green; float: right;">{{ voter.voter_uid }}</small> </ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
@@ -93,30 +93,31 @@
         </ion-item>
         <ion-item>
           <ion-label>District</ion-label>
-          <ion-text>{{ voter.district }}</ion-text>
+          <ion-text>{{ voter_district }}</ion-text>
         </ion-item>
         <ion-item>
           <ion-label>Area</ion-label>
-          <ion-text>{{ voter.area }}</ion-text>
+          <ion-text>{{ voter.area == 'U' ? 'Urban' : 'Rural' }}</ion-text>
         </ion-item>
 
         <ion-item>
           <ion-label>Vidhan Sabha</ion-label>
-          <ion-text>{{ voter.vidhan_sabha_id }}</ion-text>
+          <ion-text>{{ voter_vidhan_sabha }}</ion-text>
         </ion-item>
         <ion-item>
           <ion-label>Ward</ion-label>
-          <ion-text>{{ voter.ward_id }}</ion-text>
+          <ion-text>{{ voter_ward }}</ion-text>
         </ion-item>
         <ion-item>
           <ion-label>Mohalla</ion-label>
-          <ion-text>{{ voter.mohalla_id }}</ion-text>
+          <ion-text>{{ voter_mohalla }}</ion-text>
         </ion-item>
 
         <ion-item>
           <ion-label>Aadhaar/Voter ID</ion-label>
           <ion-text>{{ voter.aadhaar_voter_id }}</ion-text>
         </ion-item>
+
       </ion-list>
 
       <ion-button color="secondary" [routerLink]="['/voter-edit', voter.id]" class="app-btn">

@@ -217,6 +217,7 @@ ion-input.sc-ion-input-md-h {
   font-weight: 400;
   margin-bottom: 25px;
   --placeholder-font-weight: 300;
+  --border-color: #b3b3b3;
 }
 ion-select::placeholder,
 ion-textarea.sc-ion-textarea-md-h::placeholder,

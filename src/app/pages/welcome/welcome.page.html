@@ -21,16 +21,33 @@
           </ion-card-content>
         </ion-card>
 
+        <ion-card class="dashboard-card" style="margin-top: 60px;">
+          <ion-card-content class="ion-text-center">
+            <ion-list>
+                <ion-item lines="none">
+                  <ion-select label="Working District" placeholder="Working District" style="margin: 0;" (ionChange)="handleChange($event)" value="{{_dis}}">
+
+                    <ion-select-option value="lucknow"> Lucknow </ion-select-option>
+                    <ion-select-option value="barabanki"> Barabanki </ion-select-option>
+                    <ion-select-option value="hardoi"> Hardoi </ion-select-option>
+                    <ion-select-option value="raebareli"> Rae Bareli </ion-select-option>
+                    <ion-select-option value="pratapgarh"> Pratapgarh </ion-select-option>
+                    <ion-select-option value="sitapur"> Sitapur </ion-select-option>
+                    <ion-select-option value="lakhimpur_kheri"> Lakhimpur Kheri </ion-select-option>
+
+                  </ion-select>
+                </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
 
       </ion-col>
 
       <!-- Card: Sync to Server -->
       <ion-col size="6" size-md="6" class="ion-text-center">
-          <img src="assets/bg.jpg" alt="" style="height: 550px;">
+        <img src="assets/bg.jpg" alt="" style="height: 550px;object-fit: contain;object-position: top;">
       </ion-col>
     </ion-row>
   </ion-grid>
-
-
 
 </ion-content>

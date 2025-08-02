@@ -29,3 +29,30 @@ ipcMain.handle('db:getVoterById', async (event, id) => {
 ipcMain.handle('db:updateVoter', async (event, id, voterData) => {
   return await db.updateVoter(id, voterData);
 });
+ipcMain.handle('db:insertMasterData', async (event, data) => {
+  return await db.insertMasterData(data);
+});
+
+// Get all districts
+ipcMain.handle('db:getDistricts', async () => {
+  return await db.getDistricts();
+});
+
+// Get VS list by district_id
+ipcMain.handle('db:getVidhanSabhas', async (event, district_id) => {
+  return await db.getVidhanSabhasByDistrict(district_id);
+});
+
+// Get Ward list by vs_id
+ipcMain.handle('db:getWards', async (event, vs_id) => {
+  return await db.getWardsByVidhanSabha(vs_id);
+});
+
+// Get Mohalla list by ward_id
+ipcMain.handle('db:getMohallas', async (event, ward_id) => {
+  return await db.getMohallasByWard(ward_id);
+});
+
+ipcMain.handle('db:getNameById', async (event, table, id) => {
+  return await db.getNameById(table, id);
+});
