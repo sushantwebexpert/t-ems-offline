@@ -11,6 +11,7 @@ import { ToastController } from '@ionic/angular';
 export class UploadPage implements OnInit {
 
   voters: any = [];
+  synced_voters: any = [];
   loading: Boolean = true;
   masterSync: Boolean = false;
   srvrSync: Boolean = false;
@@ -26,7 +27,8 @@ export class UploadPage implements OnInit {
   }
 
   async getAllVoters() {
-    this.storage.getAllVoters()
+
+    this.storage.getAllVotersBySynced(0)
       .then((result:any) => {
           console.log(result);
           if(result) {
@@ -36,38 +38,51 @@ export class UploadPage implements OnInit {
       })
       .catch((err:any) => {
         console.error('Insert Error:', err);
-        alert('Somthing went wrong!');
         this.loading = false;
       });
-  }
+
+      this.storage.getAllVotersBySynced(1)
+        .then((result:any) => {
+            console.log(result);
+            if(result) {
+                  this.synced_voters = result;
+                  this.loading = false;
+            }
+        })
+        .catch((err:any) => {
+          console.error('Insert Error:', err);
+          this.loading = false;
+        });
+
+    }
 
   
 
   syncToServer() {
     this.srvrSync = true;
     this.srvrMsg = '';
-
-    // this.voters.forEach((item :any, index :any) => {
-    // console.log(item);
     console.log(this.voters);
-    this.presentToast('secondary', 'Voter synced successfully!');
 
-
-      // this.api.saveVoterData(this.voters).subscribe(
-      //   async (data:any) => {
-      //     console.log(data);
-
-      //     // this.srvrSync = false;
-      //     // this.srvrMsg = data.message;
-      //   },
-      //   (err:any) => {
-      //     console.log(err);
-      //     this.srvrSync = false;
-      //   }
-      // );
+    this.api.saveVoterData(this.voters).subscribe(
+      async (data:any) => {
+        console.log(data);
+          this.srvrSync = false;
+          this.presentToast('secondary', data?.message);
+          this.setSynced(data?.inserted_id);
+        },
+        (err:any) => {
+          console.log(err);
+          this.srvrSync = false;
+        }
+     );
       
-    // });
+  }
 
+  async setSynced(inserted_id:any) {
+    for (const id of inserted_id) {
+     await this.storage.updateVoterBySynced(id, 1);
+    }
+    this.getAllVoters();
   }
 
   async presentToast(colorCode:any, msg: any) {

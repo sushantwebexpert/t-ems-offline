@@ -128,6 +128,14 @@ export class StorageService {
     return [];
   }
 
+  async getAllVotersBySynced(synced: any): Promise<any[]> {
+    const voters = await this.db.voters.where('is_synced').equals(synced).toArray();
+    if(voters) {
+      return voters;
+    }
+    return [];
+  }
+
   async getVoterByID(id: any): Promise<any> {
     const voters = await this.db.voters.get(id);
     if(voters) {
@@ -161,6 +169,21 @@ export class StorageService {
       return tName;
     }
     return false;
+  }
+
+  async updateVoterBySynced(id: any, synced: any): Promise<any> {
+    try {
+      const updatedCount = await this.db.voters.update(id, { is_synced: synced });
+      if (updatedCount === 0) {
+        console.warn(`No voter found with ID ${id}`);
+        return false;
+      }
+      console.log(`Voter with ID ${id} updated successfully`);
+      return true;
+    } catch (error) {
+      console.error('Error updating voter:', error);
+      return false;
+    }
   }
 
 }

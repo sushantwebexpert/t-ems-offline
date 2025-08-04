@@ -12,32 +12,35 @@
     Loading...
   </div>
   <div *ngIf="!loading">
-    <div *ngIf="voters.length > 0; else noData">
-
       <ion-grid style=" margin-top: 2px; ">
         <ion-row class="ion-align-items-center head-row" color="light">
           <ion-col size="1"><span>ID</span></ion-col>
           <ion-col size="6"><span>Name</span></ion-col>
           <ion-col size="3"><span>Phone</span></ion-col>
-          <ion-col size="2"><span>Status</span></ion-col>
+          <ion-col size="2" class="ion-text-center"><span>Status</span></ion-col>
         </ion-row>
 
         <ion-row *ngFor="let voter of voters" class="ion-align-items-center single-row">
           <ion-col size="1">{{ voter.id }}</ion-col>
           <ion-col size="6">{{ voter.name_en }}</ion-col>
           <ion-col size="3">{{ voter.mobile_no }}</ion-col>
-          <ion-col size="2">
-            -/+
+          <ion-col size="2" class="ion-text-center">
+            <ion-icon name="remove-outline" color="primary"></ion-icon>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngFor="let voter of synced_voters" class="ion-align-items-center single-row">
+          <ion-col size="1">{{ voter.id }}</ion-col>
+          <ion-col size="6">{{ voter.name_en }}</ion-col>
+          <ion-col size="3">{{ voter.mobile_no }}</ion-col>
+          <ion-col size="2" class="ion-text-center">
+            <ion-icon name="checkmark-done-circle-sharp" color="success"></ion-icon>
           </ion-col>
         </ion-row>
       </ion-grid>
-    </div>
-    <ng-template #noData>
-      <ion-item>No voters found.</ion-item>
-    </ng-template>
   </div>
 </ion-content>
-<ion-footer style="padding: 0 6px;">
+<ion-footer style="padding: 0 6px;" *ngIf="voters.length > 0;">
     <ion-button color="primary" expand="full" (click)="syncToServer()" *ngIf="!srvrSync" class="app-btn">Sync All to Server</ion-button>
     <ion-button type="button" expand="full" class="app-btn" *ngIf="srvrSync">
       <ion-spinner name="circular" color="light" style="height: 20px;color: #ffffff;"></ion-spinner> Uploading...
