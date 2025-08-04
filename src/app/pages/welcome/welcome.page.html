@@ -1,30 +1,51 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start" [routerLink]="'/welcome'" [routerDirection]="'back'">
+      <ion-button>      
+        <ion-icon name="home"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
 <ion-content class="ion-padding">
   <ion-grid>
     <ion-row>
       <ion-col size="12">
-        <h3 class="ion-no-margin">Dashboard</h3>
       </ion-col>
 
       <!-- Card: Add New Voter -->
-      <ion-col size="6" size-md="6">
-        <ion-card button [routerLink]="'/voter-add'" [routerDirection]="'root'" class="dashboard-card" color="secondary">
-          <ion-card-content class="ion-text-center">
-            <ion-icon name="person-add-outline" size="large"></ion-icon>
-            <h2>Add New Voter</h2>
-          </ion-card-content>
-        </ion-card>
+      <ion-col size="12">
+            @for (p of appPages; track p; let i = $index) {
 
-        <ion-card button [routerLink]="'/upload'" [routerDirection]="'root'"  class="dashboard-card" color="dark">
-          <ion-card-content class="ion-text-center">
-            <ion-icon name="cloud-upload-outline" size="large"></ion-icon>
-            <h2>Sync to Server</h2>
-          </ion-card-content>
-        </ion-card>
+              <ion-card button routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected"  class="dashboard-card" color="light">
+                <ion-card-content class="ion-text-center">
+                  <ion-icon aria-hidden="true" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'" size="large"></ion-icon>
+                  <h2>{{ p.title }}</h2>
+                </ion-card-content>
+              </ion-card>
+            }
 
-        <ion-card class="dashboard-card" style="margin-top: 60px;">
-          <ion-card-content class="ion-text-center">
-            <ion-list>
-                <ion-item lines="none">
+            <ion-card button (click)="getMasters()" lines="none" detail="false" [class.sync]="masterSync" [class.synced]="masterData" class="dashboard-card" color="light">
+              <ion-card-content class="ion-text-center">
+                <ion-icon aria-hidden="true" md="sync" size="large" *ngIf="!masterData"></ion-icon>
+                <ion-icon aria-hidden="true" md="checkmark-circle" size="large" *ngIf="masterData"></ion-icon>
+                <h2>Get Masters</h2>
+              </ion-card-content>
+            </ion-card>
+
+        <!-- <div class="fdfdsgdfgdfg">
+          <ion-button (click)="getMasters()" *ngIf="!masterSync" class="app-btn">Get Masters</ion-button>
+          <ion-button type="button" class="app-btn" *ngIf="masterSync">
+            <ion-spinner name="circular" color="light" style="height: 20px;color: #ffffff;"></ion-spinner> Loading...
+          </ion-button>
+          <div class="sync-msg">{{syncmsg}}</div>
+        </div> -->
+
+
+        <ion-card class="dashboard-card ion-no-padding" color="">
+          <ion-card-content class="ion-text-center ion-no-padding">
+            <ion-list style="--background: transparent;">
+                <ion-item lines="none" style="--background: transparent;">
                   <ion-select label="Working District" placeholder="Working District" style="margin: 0;" (ionChange)="handleChange($event)" value="{{_dis}}">
 
                     <ion-select-option value="lucknow"> Lucknow </ion-select-option>
@@ -43,10 +64,13 @@
 
       </ion-col>
 
-      <!-- Card: Sync to Server -->
-      <ion-col size="6" size-md="6" class="ion-text-center">
-        <img src="assets/bg.jpg" alt="" style="height: 550px;object-fit: contain;object-position: top;">
-      </ion-col>
+ <!-- <ion-card button routerDirection="root" routerLink="/sqlite-viewer" lines="none" detail="false" routerLinkActive="selected"  class="dashboard-card" color="light">
+  <ion-card-content class="ion-text-center">
+    <h2>DB</h2>
+  </ion-card-content>
+</ion-card> -->
+
+
     </ion-row>
   </ion-grid>
 

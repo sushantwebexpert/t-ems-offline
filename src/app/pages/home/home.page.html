@@ -8,30 +8,27 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <div *ngIf="loading">
+<ion-content class="ion-no-padding">
+  <div *ngIf="loading" style="padding: 1rem;">
     Loading...    
   </div>
   <div *ngIf="!loading">
     <div *ngIf="voters.length > 0; else noData">
 
-      <ion-grid>
-        <ion-row class="ion-text-center ion-align-items-center head-row" color="light">
+      <ion-grid style=" margin-top: 2px; ">
+        <ion-row class="ion-align-items-center head-row" color="light">
           <ion-col size="1"><span>ID</span></ion-col>
-          <ion-col size="3"><span>Name</span></ion-col>
+          <ion-col size="6"><span>Name</span></ion-col>
           <ion-col size="3"><span>Phone</span></ion-col>
-          <ion-col size="2"><span>Address</span></ion-col>
-          <ion-col size="3"><span>Actions</span></ion-col>
+          <ion-col size="2"><span>Actions</span></ion-col>
         </ion-row>
 
-        <ion-row *ngFor="let voter of voters" class="ion-text-center ion-align-items-center single-row">
-          <ion-col size="1">{{ voter.id }}</ion-col>
-          <ion-col size="3">{{ voter.name_en }}</ion-col>
-          <ion-col size="3">{{ voter.mobile_no }}</ion-col>
-          <ion-col size="2">{{ voter.address }}</ion-col>
-          <ion-col size="3">
-            <ion-button size="small" color="success" [routerLink]="['/voter-view', voter.id]">View</ion-button>
-            <ion-button size="small" color="secondary" [routerLink]="['/voter-edit', voter.id]">Edit</ion-button>
+        <ion-row *ngFor="let voter of voters" class="ion-align-items-center single-row">
+          <ion-col size="1" [routerLink]="['/voter-view', voter.id]">{{ voter.id }}</ion-col>
+          <ion-col size="6" [routerLink]="['/voter-view', voter.id]">{{ voter.name_en }}</ion-col>
+          <ion-col size="3" [routerLink]="['/voter-view', voter.id]">{{ voter.mobile_no }}</ion-col>
+          <ion-col size="2">
+            <ion-button size="small" color="primary" [routerLink]="['/voter-edit', voter.id]">Edit</ion-button>
           </ion-col>
         </ion-row>
       </ion-grid>

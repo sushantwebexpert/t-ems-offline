@@ -1,11 +1,17 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay" style="width: 256px;">
+    <ion-menu contentId="main-content" type="overlay">
+      <ion-header [translucent]="true">
+        <ion-toolbar color="secondary">
+          <ion-title>EMS</ion-title>
+        </ion-toolbar>
+      </ion-header>
       <ion-content>
+        <div class="ion-padding">
+          <h3 class="section-title ion-no-margin" style="margin: 0;">Admin {{app_user.district}}</h3>
+          <p style="font-size: 14px;">{{app_user.email}} </p>
+        </div>
         <ion-list id="inbox-list" lines="none">
-          <ion-list-header>EMS</ion-list-header>
-          <ion-note style="font-size: 14px;">{{app_user.email}} </ion-note>
-
           <div *ngIf="isAuth">
             @for (p of appPages; track p; let i = $index) {
               <ion-menu-toggle auto-hide="false">
