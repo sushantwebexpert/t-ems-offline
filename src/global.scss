@@ -36,6 +36,47 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
 :root {
-  --ion-color-primary: #0163aa;
+    // --ion-color-primary: #f47216;
+    --ion-color-primary: #F97D09;
+    --ion-color-secondary: #278D27;
+}
+.android {
+  --ion-safe-area-top: 0px; /* Start at 0 for Android, updated dynamically via Java */
+  --ion-safe-area-bottom: 0px;
 }
 @import "./app/app.css";
+@media (prefers-color-scheme: dark) {
+  ion-select,
+  ion-textarea.sc-ion-textarea-md-h,
+  ion-input.sc-ion-input-md-h{
+    color: #cccccc;
+    background: #151515;
+    border: 1px solid #464646;
+  }
+  form ion-label.sc-ion-label-md-h.label-stacked,
+  form ion-label.sc-ion-label-md-h {
+    color: #b1b1b1;
+  }
+  ion-footer {
+    background: #121212!important;
+  }
+  .digit-group .otp-input,
+  .digit-group input {
+    background: #151515;
+    border: 2px solid #464646 !important;
+    color: #ffffff;
+  }
+  .digit-group input::placeholder,
+  .digit-group .otp-input::placeholder{
+    color: #ffffff;
+  }
+  .app-upload-btn {
+    --background: #3b3b3b;
+    color: #d0d0d0;
+    border: 1px dashed #8f8f8f !important;
+  }
+  .bg-light {
+      background-color: #111111;
+  --background: #111111;
+  }
+}

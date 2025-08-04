@@ -203,11 +203,11 @@ ion-title {
     font-weight: 300;
 }
 .section-title {
-    font-weight: 600;
-    font-size: 1rem;
+    font-weight: 300;
     border-bottom: 1px solid #dcdcdc;
     padding-bottom: 6px;
     margin-bottom: 1rem;
+    color: green;
 }
 
 ion-select,
@@ -218,6 +218,7 @@ ion-input.sc-ion-input-md-h {
   margin-bottom: 25px;
   --placeholder-font-weight: 300;
   --border-color: #b3b3b3;
+  --background: #ffffff;
 }
 ion-select::placeholder,
 ion-textarea.sc-ion-textarea-md-h::placeholder,
@@ -240,4 +241,6 @@ ion-select.md {
     border-radius: 8px;
     --border-radius: 8px;
     overflow: hidden;
+    font-weight: 400;
 }
+

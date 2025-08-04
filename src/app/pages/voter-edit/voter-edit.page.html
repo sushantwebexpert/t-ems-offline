@@ -131,7 +131,11 @@
       </ion-row>
       <ion-row>
           <ion-col size="12" size-sm="4">
-             <ion-button expand="full" type="submit" class="app-btn">Update</ion-button>
+             <ion-button expand="full" type="submit" *ngIf="!saving" class="app-btn">Update</ion-button>
+             <ion-button expand="full" type="button" *ngIf="saving" class="app-btn">
+                <ion-spinner name="circular" color="light" style="height: 20px;color: #ffffff;"></ion-spinner>
+             </ion-button>
+
           </ion-col>
       </ion-row>
 

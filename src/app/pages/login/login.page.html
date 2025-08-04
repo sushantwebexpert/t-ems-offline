@@ -1,9 +1,16 @@
 <ion-content class="ion-padding">
- <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" style="width: 60%; margin: 0 auto;margin-top: 60px;">
-    <h3>Login</h3>
+
+
+  <div class="ion-text-center" style="margin-top: 40px;">
+    <img src="assets/imgs/lotus.png" alt="BJP" style=" background: #ffffff; border-radius: 50%; width: 60px; padding: 2px; height: 60px; "  />
+  </div>
+
+
+
+ <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <ion-grid>
       <ion-row>
-          <ion-col size="12"><h3 class="section-title">Enter your login credentials</h3></ion-col>
+          <ion-col size="12"><h3 class="section-title ion-text-center">Enter your login credentials</h3></ion-col>
           <ion-col size="12">
             <ion-input label="Email" label-placement="stacked" fill="outline" placeholder="Enter Email" formControlName="email"></ion-input>
           </ion-col>

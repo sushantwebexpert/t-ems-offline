@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-declare const window: any;
+import { StorageService } from '../../api/storage.service';
+
 
 @Component({
   selector: 'app-voter-edit',
@@ -25,13 +26,15 @@ export class VoterEditPage implements OnInit {
   selectedVS: string = '';
   selectedWard: string = '';
   selectedMohalla: string = '';
+  saving: Boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private toastController: ToastController,
     private router: Router,
     private fb: FormBuilder,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private storage: StorageService
   ) {
     this.voterId = +this.route.snapshot.paramMap.get('id')!;
     this.voterForm = this.fb.group({
@@ -62,6 +65,7 @@ export class VoterEditPage implements OnInit {
       mohalla_id: [''],
       aadhaar_voter_id: [''],
       voter_uid: [''],
+      is_synced: [0],
     });
   }
 
@@ -71,11 +75,10 @@ export class VoterEditPage implements OnInit {
 
   async setVoters() {
     try {
-      const data = await (window as any).electronAPI.getVoterById(this.voterId);
-      this.districts = await (window as any).electronAPI.getDistricts();
-      if (data?.voter) {
-        let _voter = JSON.parse(data.voter);
-
+      const data = await this.storage.getVoterByID(this.voterId)
+      this.districts = await this.storage.getDistricts();
+      if (data) {
+        let _voter = data;
         this.voterForm.controls['name_en'].setValue(_voter.name_en);
         this.voterForm.controls['name_hi'].setValue(_voter.name_hi);
         this.voterForm.controls['mobile_no'].setValue(_voter.mobile_no);
@@ -132,8 +135,11 @@ export class VoterEditPage implements OnInit {
   async onDistrictChange(district_id: string) {
     this.selectedDistrict = district_id;
     console.log(district_id);
-    
-    this.vidhanSabhas = await (window as any).electronAPI.getVidhanSabhas(district_id);
+    let vs:any = await this.storage.getVidhanSabhas(district_id);
+    if(vs) {
+      this.vidhanSabhas = vs;
+    }
+
     console.log(this.vidhanSabhas);
     
     this.wards = [];
@@ -143,7 +149,10 @@ export class VoterEditPage implements OnInit {
 
   async onVSChange(vs_id: string) {
     this.selectedVS = vs_id;
-    this.wards = await (window as any).electronAPI.getWards(vs_id);
+    let w:any = await this.storage.getWards(vs_id);
+    if(w) {
+      this.wards = w;
+    }
     console.log(this.wards);
 
     this.mohallas = [];
@@ -152,7 +161,10 @@ export class VoterEditPage implements OnInit {
 
   async onWardChange(ward_id: string) {
     this.selectedWard = ward_id;
-    this.mohallas = await (window as any).electronAPI.getMohallas(ward_id);
+    let m:any = await this.storage.getMohallas(ward_id);
+    if(m) {
+      this.mohallas = m;
+    }
     console.log(this.mohallas);
     this.voterForm.controls['area'].setValue('');
   }
@@ -162,8 +174,6 @@ export class VoterEditPage implements OnInit {
     const selected = this.mohallas.find(m => m.id === mohalla_id);
     const _area = selected?.area || '';
     this.voterForm.controls['area'].setValue(_area);
-    console.log(_area);
-    
   }
 
   generateVoterUID(voter: any): string {
@@ -178,6 +188,8 @@ export class VoterEditPage implements OnInit {
   }
 
   async onSubmit() {
+    this.saving = true;
+
     if (this.voterForm.valid) {
       this.showLoading();
       
@@ -193,13 +205,18 @@ export class VoterEditPage implements OnInit {
 
       setTimeout(() => {
 
-          (window as any).electronAPI.updateVoter(this.voterId, formData)
+          this.storage.updateVoter(this.voterId, formData)
           .then((result:any) => {
+            console.log(result);
+
             this.loadingCtrl2.dismiss();
             this.presentToast('secondary', 'Voter updated successfully!');
+            this.voterForm.reset();
             this.router.navigate(['/welcome']);
           })
           .catch((err:any) => {
+            console.log(err);
+            
             this.presentToast('dark', 'Somthing went wrong!');
           });
 
@@ -207,6 +224,7 @@ export class VoterEditPage implements OnInit {
 
     } else {
       console.log('Form is invalid');
+      this.saving = false;
     }
   }
 

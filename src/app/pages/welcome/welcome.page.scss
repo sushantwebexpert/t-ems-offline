@@ -1,3 +1,18 @@
+.card-content-md h2 {
+        font-size: 14px;
+}
 .dashboard-card {
-    border-radius: 25px;
+  border-radius: 25px;
+  color: green;
+}
+.dashboard-card.synced {
+  background: lightgreen;
+}
+
+.dashboard-card.sync ion-icon {
+    animation: spin 2s linear infinite;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../../api/api.service';
+import { StorageService } from '../../api/storage.service';
 
 @Component({
   selector: 'app-welcome',
@@ -7,14 +9,58 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WelcomePage implements OnInit {
   _dis:any;
-  constructor() { }
+  
+  voters: any = [];
+  loading: Boolean = true;
+  masterSync: Boolean = false;
+  srvrSync: Boolean = false;
+  syncmsg: any='';
+  srvrMsg: any='';
+  uploadedIds: any[] = [];
+  masterData: Boolean = false;
+  public appPages = [
+    { title: 'Add New Voter', url: '/voter-add', icon: 'person-add' },
+    { title: 'Sync to Server', url: '/upload', icon: 'cloud-upload' },
+    { title: 'Voters List', url: '/home', icon: 'list' }
+  ];
+  constructor(private api: ApiService, private storage: StorageService) { }
 
   ngOnInit() {
     this._dis = localStorage.getItem('ems_app_user_district');
+    this.checkDB();
   }
 
   handleChange($event:any) {
     localStorage.setItem('ems_app_user_district', $event.detail.value);
+  }
+
+  async checkDB() {
+    let _masterData:any = await this.storage.getAllDB();
+    if(_masterData) {
+      this.masterData = true;
+    } else {
+      this.masterData = false;
+    }
+    console.log(_masterData);
+    
+  }
+
+  getMasters() {
+    this.masterSync = true;
+    this.syncmsg = '';
+    this.api.getMasters().subscribe(
+      async (data:any) => {
+        console.log(data);
+        await this.storage.insertMasterData(data);
+        this.masterSync = false;
+        this.syncmsg = 'Master data updated successfully!!!';
+        this.checkDB();
+      },
+      (err:any) => {
+        console.log(err);
+        this.masterSync = false;
+      }
+    );
   }
 
 }

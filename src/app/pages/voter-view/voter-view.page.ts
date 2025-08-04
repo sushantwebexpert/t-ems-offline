@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-declare const window: any;
+import { StorageService } from '../../api/storage.service';
 
 @Component({
   selector: 'app-voter-view',
@@ -18,7 +18,7 @@ export class VoterViewPage implements OnInit {
   voter_mohalla:any = '';
 
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private storage: StorageService) {
     this.voterId = +this.route.snapshot.paramMap.get('id')!;
   }
 
@@ -31,9 +31,11 @@ export class VoterViewPage implements OnInit {
   async loadVoter() {
 
     try {
-      const data = await (window as any).electronAPI.getVoterById(this.voterId);
-      if (data?.voter) {
-        this.voter = JSON.parse(data.voter);
+      const data = await this.storage.getVoterByID(this.voterId)
+      if (data) {
+        console.log((data));
+        
+        this.voter = data;
         this.voter.id = data.id; // preserve ID for Edit link
 
         this.voter_district = await this.getNameById('districts', this.voter.district);
@@ -46,16 +48,11 @@ export class VoterViewPage implements OnInit {
     } catch (error) {
       console.error('Failed to load voter', error);
     }
-
-    // let v:any = `{"name_en":"Sushant","name_hi":"anshu","mobile_no":"9876543210","gender":"male","dob":"2025-07-18","whatsapp_no":"8884234234","email":"sss@dfmfgh.gfhg","relative_name":"jhj","qualification":"ghfgh","graduation_university":"fghf","graduation_year":2016,"qualification_certificate_for":"hfghjhj","profession":"dfgg","additional_document":"dg","address":"jghj","house_no":"ghjghj","gali":"ghjghj","village_town":"ghjghj","post_office":"ghj","tehsil":"ghjghj","district":"mbnmbnm","area":"bn,m,g","vidhan_sabha_id":"","ward_id":"","mohalla_id":"","aadhaar_voter_id":"4234324"}`;
-    // this.voter = JSON.parse(v);
-
-    // this.voter = row ? JSON.parse(row.voter) : null;
   }
   
   async getNameById(table:any, id:any) {
      try {
-      const data = await (window as any).electronAPI.getNameById(table, id);
+      const data = await this.storage.getNameById(table, id);
       console.log(data);
       
       if (data?.name_en) {

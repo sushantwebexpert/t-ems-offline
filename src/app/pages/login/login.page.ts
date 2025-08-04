@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastController, LoadingController } from '@ionic/angular';
 import { EventsService } from '../../api/events.service';
-import { ApiService } from 'src/app/api/api.service';
+import { ApiService } from '../../api/api.service';
 
 @Component({
   selector: 'app-login',
@@ -57,7 +57,7 @@ export class LoginPage implements OnInit {
             localStorage.setItem('ems_app_user', JSON.stringify(res.user));
             localStorage.setItem('ems_app_user_district', res.user.district);
             this.events.publish('user:updated',{});
-            this.router.navigate(['/home'], { replaceUrl: true });
+            this.router.navigate(['/welcome'], { replaceUrl: true });
             this.presentToast('dark', res.message);
         } else {
           this.loadingCtrl2.dismiss();

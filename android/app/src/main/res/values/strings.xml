@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Awanish Voters</string>
+    <string name="title_activity_main">Awanish Voters</string>
+    <string name="package_name">com.voters.awanish</string>
+    <string name="custom_url_scheme">com.voters.awanish</string>
+</resources>
