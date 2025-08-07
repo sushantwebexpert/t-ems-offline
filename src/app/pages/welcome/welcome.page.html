@@ -1,10 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="secondary">
-    <ion-buttons slot="start" [routerLink]="'/welcome'" [routerDirection]="'back'">
+    <ion-buttons slot="start" fill="clear" >
+      <ion-menu-button><img src="assets/imgs/menu.svg" /> </ion-menu-button>
+    </ion-buttons>
+    <ion-title>Dashboard</ion-title>
+    <ion-buttons slot="end" [routerLink]="'/welcome'" [routerDirection]="'back'">
       <ion-button>      
         <ion-icon name="home"></ion-icon></ion-button>
     </ion-buttons>
-    <ion-title>Dashboard</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding">
@@ -33,6 +36,15 @@
               </ion-card-content>
             </ion-card>
 
+<!--             
+            <ion-card button (click)="cleanDB()" lines="none" detail="false" [class.cleaning]="cleaning" [class.synced]="cleanedDB" class="dashboard-card" color="light">
+              <ion-card-content class="ion-text-center">
+                <ion-icon aria-hidden="true" md="trash" size="large" *ngIf="!cleanedDB"></ion-icon>
+                <ion-icon aria-hidden="true" md="checkmark-circle" size="large" *ngIf="cleanedDB"></ion-icon>
+                <h2>Clean Data</h2>
+              </ion-card-content>
+            </ion-card> -->
+
         <!-- <div class="fdfdsgdfgdfg">
           <ion-button (click)="getMasters()" *ngIf="!masterSync" class="app-btn">Get Masters</ion-button>
           <ion-button type="button" class="app-btn" *ngIf="masterSync">
@@ -42,7 +54,7 @@
         </div> -->
 
 
-        <ion-card class="dashboard-card ion-no-padding" color="">
+        <!-- <ion-card class="dashboard-card ion-no-padding" color="">
           <ion-card-content class="ion-text-center ion-no-padding">
             <ion-list style="--background: transparent;">
                 <ion-item lines="none" style="--background: transparent;">
@@ -60,7 +72,7 @@
                 </ion-item>
             </ion-list>
           </ion-card-content>
-        </ion-card>
+        </ion-card> -->
 
       </ion-col>
 

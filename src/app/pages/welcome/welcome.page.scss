@@ -9,6 +9,17 @@
   background: lightgreen;
 }
 
+
+
+
+.dashboard-card.cleaning ion-icon {
+    animation: spin2 2s linear infinite;
+}
+@keyframes spin2 {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); }
+}
+
 .dashboard-card.sync ion-icon {
     animation: spin 2s linear infinite;
 }

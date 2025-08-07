@@ -207,7 +207,7 @@ ion-title {
     border-bottom: 1px solid #dcdcdc;
     padding-bottom: 6px;
     margin-bottom: 1rem;
-    color: green;
+    color: green;margin-top: 0;
 }
 
 ion-select,
@@ -243,4 +243,54 @@ ion-select.md {
     overflow: hidden;
     font-weight: 400;
 }
+ .app-upload-btn {
+    margin: 0;
+    margin-bottom: 25px;
+    --background: #f5f5f5;
+    color: #000000;
+    --border-color: transparent;
+    background: transparent;
+    border: 2px dashed #ababab !important;
+    font-weight: 300;
+    width: -webkit-fill-available;
+    min-height: 46px;
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 10px;
+    text-transform: capitalize;
+ }
+ .app-btn.btn-secondary {
+      --background: var(--ion-color-secondary);
+ }
+form ion-label.sc-ion-label-md-h.label-stacked,
+form ion-label.sc-ion-label-md-h {
+  padding-left: 4px;
+  padding-right: 4px;
+  transform: scale(1);
+  font-size: 11px;
+  margin-bottom: 2px;
+}
 
+
+
+ion-select.has-focus,
+ion-input.sc-ion-input-md-h.has-focus,
+ion-select.ion-focused,
+ion-input.sc-ion-input-md-h.ion-focused {
+  border-color: #007bff;
+}
+
+
+/* Valid state: green border */
+ion-select.ion-valid.ion-touched,
+ion-input.sc-ion-input-md-h.ion-valid.ion-touched {
+  border-color: var(--ion-color-secondary);
+}
+
+/*Invalid state: red border */
+ion-select.ion-invalid.ion-touched,
+ion-input.sc-ion-input-md-h.ion-invalid.ion-touched {
+  border-color: #dc3545;
+  --border-color: #dc3545;
+  color: #dc3545;
+}

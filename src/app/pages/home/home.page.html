@@ -1,10 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="secondary">
-    <ion-buttons slot="start" [routerLink]="'/welcome'" [routerDirection]="'back'">
+    <ion-buttons slot="start" fill="clear" >
+      <ion-menu-button><img src="assets/imgs/menu.svg" /> </ion-menu-button>
+    </ion-buttons>
+    <ion-title>Voter List</ion-title>
+    <ion-buttons slot="end" [routerLink]="'/welcome'" [routerDirection]="'back'">
       <ion-button>      
         <ion-icon name="home"></ion-icon></ion-button>
     </ion-buttons>
-    <ion-title>Voter List</ion-title>
   </ion-toolbar>
 </ion-header>
 

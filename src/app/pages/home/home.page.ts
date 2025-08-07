@@ -18,7 +18,8 @@ export class HomePage implements OnInit {
   }
 
   async getAllVoters() {
-    this.storage.getAllVoters()
+    // this.storage.getAllVoters()
+    this.storage.getAllVotersBySynced(0)
       .then((result:any) => {
           console.log(result);
           if(result) {

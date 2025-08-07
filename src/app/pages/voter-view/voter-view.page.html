@@ -1,10 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="secondary">
-    <ion-buttons slot="start" [routerLink]="'/home'" [routerDirection]="'back'">
+        <ion-buttons slot="start" fill="clear" >
+      <ion-menu-button><img src="assets/imgs/menu.svg" /> </ion-menu-button>
+    </ion-buttons>
+    <ion-title>Voter Details</ion-title>
+    <ion-buttons slot="end" [routerLink]="'/home'" [routerDirection]="'back'">
       <ion-button>      
         <ion-icon name="arrow-back"></ion-icon></ion-button>
     </ion-buttons>
-    <ion-title>Voter Details</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -115,6 +118,30 @@
           <ion-label>Aadhaar/Voter ID</ion-label>
           <ion-text>{{ voter.aadhaar_voter_id }}</ion-text>
         </ion-item>
+
+        <ion-item><ion-label>Photo
+          <p (click)="openImage(imagesHtml_photo)"><img [src]="imagesHtml_photo" height="50px"/></p>
+          </ion-label>
+        </ion-item>
+        <ion-item><ion-label>Graduation Certificate/Marksheet 
+          <p (click)="openImage(imagesHtml_graduate)"><img [src]="imagesHtml_graduate" height="50px"/></p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item><ion-label>Aadhaar Card -<br><small class="d-green">(Front Side)</small>
+          <p (click)="openImage(imagesHtml_aadhar)"><img [src]="imagesHtml_aadhar" height="50px"/></p></ion-label>
+        </ion-item>
+        <ion-item><ion-label>Aadhaar Card -<br><small class="d-green">(Back Side)</small>
+          <p (click)="openImage(imagesHtml_aadhar2)"><img [src]="imagesHtml_aadhar2" height="50px"/></p></ion-label>
+        </ion-item>
+
+        <ion-item><ion-label>Voter ID Card -<br><small class="d-green">(Front Side)</small>
+          <p (click)="openImage(imagesHtml_voterid)"><img [src]="imagesHtml_voterid" height="50px"/></p></ion-label>
+        </ion-item>
+        <ion-item><ion-label>Voter ID Card -<br><small class="d-green">(Back Side)</small>
+          <p (click)="openImage(imagesHtml_voterid2)"><img [src]="imagesHtml_voterid2" height="50px"/></p></ion-label>
+        </ion-item>
+
 
       </ion-list>
 

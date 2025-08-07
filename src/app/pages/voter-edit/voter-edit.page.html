@@ -1,10 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="secondary">
-    <ion-buttons slot="start" [routerLink]="'/home'" [routerDirection]="'back'">
+        <ion-buttons slot="start" fill="clear" >
+      <ion-menu-button><img src="assets/imgs/menu.svg" /> </ion-menu-button>
+    </ion-buttons>
+    <ion-title>Edit Voter</ion-title>
+    <ion-buttons slot="end" [routerLink]="'/home'" [routerDirection]="'back'">
       <ion-button>      
         <ion-icon name="arrow-back"></ion-icon></ion-button>
     </ion-buttons>
-    <ion-title>Edit Voter</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -129,6 +132,125 @@
             <ion-input label="Aadhaar / Voter ID" label-placement="stacked" fill="outline" placeholder="Enter ID" formControlName="aadhaar_voter_id"></ion-input>
           </ion-col>
       </ion-row>
+
+      
+
+      <!-- graduation_proof Upload -->
+      <ion-item lines="none" class="ion-no-padding">
+        <ion-label position="stacked" style="font-size: 10px;">Graduation Certificate/Marksheet</ion-label>
+        <div *ngIf="doc_graduation"
+          style="margin-bottom: 12px;margin-top: 6px;text-align: center;width: 100%;display: flex;align-items: center;justify-content: space-around;border: 1px dashed #ff9e5e; padding: 8px; border-radius: 12px;">
+          <img [src]="doc_graduation" style="width: 150px;height: 200px;object-fit: contain;">
+          <h6 (click)="removePhoto('graduation')"
+            style="font-size: 12px;display: flex; gap: 2px; margin: 0; border: 2px solid #e5e5e5; padding: 4px 8px; border-radius: 8px; background: #e0e0e0; color: #5d5d5d; font-weight: 400; align-items: center;">
+            <span>Remove</span>
+            <ion-icon name="close-circle-outline" class="closer-icon"></ion-icon>
+          </h6>
+        </div>
+        <div *ngIf="!doc_graduation" style="width: 100%;">
+          <ion-button expand="full" type="button" (click)="capturePhoto('graduation')" class="app-upload-btn"><ion-icon name="image-outline"></ion-icon> &nbsp;Add Graduation Certificate</ion-button>
+        </div>
+      </ion-item>
+
+      <!-- Photo Upload -->
+      <ion-item lines="none" class="ion-no-padding">
+        <ion-label position="stacked">Upload Passport Size Photo </ion-label>
+        <div *ngIf="doc_photo"
+          style="margin-bottom: 12px;margin-top: 6px;text-align: center;width: 100%;display: flex;align-items: center;justify-content: space-around;border: 1px dashed #ff9e5e; padding: 8px; border-radius: 12px;">
+          <img [src]="doc_photo" style="width: 150px;height: 200px;object-fit: contain;">
+          <h6 (click)="removePhoto('photo')"
+            style="font-size: 12px;display: flex; gap: 2px; margin: 0; border: 2px solid #e5e5e5; padding: 4px 8px; border-radius: 8px; background: #e0e0e0; color: #5d5d5d; font-weight: 400; align-items: center;">
+            <span>Remove</span>
+            <ion-icon name="close-circle-outline" class="closer-icon"></ion-icon>
+          </h6>
+        </div>
+        <div *ngIf="!doc_photo" style="width: 100%;">
+          <ion-button expand="full" type="button" (click)="capturePhoto('photo')" class="app-upload-btn"><ion-icon name="image-outline"></ion-icon> &nbsp;Add Photo</ion-button>
+        </div>
+      </ion-item>
+
+      <!-- Address Proof Upload -->
+      <ion-item lines="none" class="ion-no-padding">
+        <ion-label position="stacked">Upload Address Proof</ion-label>
+
+        <ion-grid class="ion-no-padding" style="width: 100%;">
+          <ion-row class="ion-align-items-center ion-no-padding">
+            <ion-col size="5">
+
+              <div *ngIf="doc_aadhaar"
+                style="margin-bottom: 28px; margin-top: 6px; text-align: center; width: 100%; display: flex ; align-items: center; flex-direction: column; gap: 8px;border: 1px dashed #ff9e5e; padding: 8px; border-radius: 12px;">
+                <img [src]="doc_aadhaar" style="width: 150px;height: 200px;object-fit: contain;">
+                <h6 (click)="removePhoto('aadhaar')"
+                  style="font-size: 12px;display: flex; gap: 2px; margin: 0; border: 2px solid #e5e5e5; padding: 4px 8px; border-radius: 8px; background: #e0e0e0; color: #5d5d5d; font-weight: 400; align-items: center;">
+                  <span>Remove</span>
+                  <ion-icon name="close-circle-outline" class="closer-icon"></ion-icon>
+                </h6>
+              </div>
+
+              <div *ngIf="!doc_aadhaar" style="width: 100%;">
+                <ion-button expand="full" type="button" (click)="capturePhoto('aadhaar')" class="app-upload-btn"><ion-icon name="image-outline"></ion-icon> &nbsp;Add Aadhaar Front Side</ion-button>
+              </div>
+
+
+              <div *ngIf="doc_aadhaar2"
+                style="margin-bottom: 12px; margin-top: 6px; text-align: center; width: 100%; display: flex ; align-items: center; flex-direction: column; gap: 8px;border: 1px dashed #ff9e5e; padding: 8px; border-radius: 12px;">
+                <img [src]="doc_aadhaar2" style="width: 150px;height: 200px;object-fit: contain;">
+                <h6 (click)="removePhoto('aadhaar2')"
+                  style="font-size: 12px;display: flex; gap: 2px; margin: 0; border: 2px solid #e5e5e5; padding: 4px 8px; border-radius: 8px; background: #e0e0e0; color: #5d5d5d; font-weight: 400; align-items: center;">
+                  <span>Remove</span>
+                  <ion-icon name="close-circle-outline" class="closer-icon"></ion-icon>
+                </h6>
+              </div>
+
+              <div *ngIf="!doc_aadhaar2" style="width: 100%;">
+                <ion-button expand="full" type="button" (click)="capturePhoto('aadhaar2')" class="app-upload-btn"><ion-icon name="image-outline"></ion-icon> &nbsp;Add Aadhaar Back Side</ion-button>
+              </div>
+
+
+
+            </ion-col>
+            <ion-col size="2">
+              <div class="ion-text-center" style="height: 44px; margin-bottom: 12px; font-size: 10px; line-height: 44px;color: #868686; font-weight: 300;">
+                Or
+              </div>
+            </ion-col>
+            <ion-col size="5">
+
+              <div *ngIf="doc_voterid"
+                style="margin-bottom: 28px; margin-top: 6px; text-align: center; width: 100%; display: flex ; align-items: center; flex-direction: column; gap: 8px;border: 1px dashed #ff9e5e; padding: 8px; border-radius: 12px;">
+                <img [src]="doc_voterid" style="width: 150px;height: 200px;object-fit: contain;">
+                <h6 (click)="removePhoto('voterid')"
+                  style="font-size: 12px;display: flex; gap: 2px; margin: 0; border: 2px solid #e5e5e5; padding: 4px 8px; border-radius: 8px; background: #e0e0e0; color: #5d5d5d; font-weight: 400; align-items: center;">
+                  <span>Remove</span>
+                  <ion-icon name="close-circle-outline" class="closer-icon"></ion-icon>
+                </h6>
+              </div>
+              <div *ngIf="!doc_voterid" style="width: 100%;">
+                <ion-button expand="full" type="button" (click)="capturePhoto('voterid')" class="app-upload-btn"><ion-icon name="image-outline"></ion-icon> &nbsp;Add Voter ID Front Side</ion-button>
+              </div>
+
+              <div *ngIf="doc_voterid2"
+                style="margin-bottom: 12px; margin-top: 6px; text-align: center; width: 100%; display: flex ; align-items: center; flex-direction: column; gap: 8px;border: 1px dashed #ff9e5e; padding: 8px; border-radius: 12px;">
+                <img [src]="doc_voterid2" style="width: 150px;height: 200px;object-fit: contain;">
+                <h6 (click)="removePhoto('voterid2')"
+                  style="font-size: 12px;display: flex; gap: 2px; margin: 0; border: 2px solid #e5e5e5; padding: 4px 8px; border-radius: 8px; background: #e0e0e0; color: #5d5d5d; font-weight: 400; align-items: center;">
+                  <span>Remove</span>
+                  <ion-icon name="close-circle-outline" class="closer-icon"></ion-icon>
+                </h6>
+              </div>
+              <div *ngIf="!doc_voterid2" style="width: 100%;">
+                <ion-button expand="full" type="button" (click)="capturePhoto('voterid2')" class="app-upload-btn"><ion-icon name="image-outline"></ion-icon> &nbsp;Add Voter ID Back Side</ion-button>
+              </div>
+
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </ion-item>
+
+
+
+
       <ion-row>
           <ion-col size="12" size-sm="4">
              <ion-button expand="full" type="submit" *ngIf="!saving" class="app-btn">Update</ion-button>

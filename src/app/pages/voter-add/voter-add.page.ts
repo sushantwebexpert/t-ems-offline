@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastController, LoadingController } from '@ionic/angular';
+import { ToastController, LoadingController, AlertController, ActionSheetController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { StorageService } from '../../api/storage.service';
-declare const window: any;
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+
 
 @Component({
   selector: 'app-voter-add',
@@ -27,13 +28,33 @@ export class VoterAddPage implements OnInit {
 
   saving: Boolean = false;
   submiting: Boolean = false;
+  actionSheet:any;
+
+  selectedImages: { [key: string]: File | null } = {
+    photo: null,
+    graduation: null,
+    aadhaar: null,
+    aadhaar2: null,
+    voterid: null,
+    voterid2: null
+  };
+
+  doc_photo: any = null;
+  doc_graduation: any = null;
+  doc_aadhaar: any = null;
+  doc_aadhaar2: any = null;
+  doc_voterid: any = null;
+  doc_voterid2: any = null;
+  imgload: boolean = false;
 
   constructor(
     private toastController: ToastController,
     private router: Router,
     private fb: FormBuilder,
     private loadingCtrl: LoadingController,
-    private storage: StorageService
+    private storage: StorageService,
+    private actionSheetCtrl: ActionSheetController,
+    private alertController: AlertController
   ) {
     this.voterForm = this.fb.group({
       name_en: ['', Validators.required],
@@ -56,13 +77,19 @@ export class VoterAddPage implements OnInit {
       village_town: [''],
       post_office: [''],
       tehsil: [''],
-      district: [''],
+      district: ['', Validators.required],
       area: [''],
       vidhan_sabha_id: [''],
       ward_id: [''],
       mohalla_id: [''],
       aadhaar_voter_id: [''],
       voter_uid: [''],
+      photo_url: [''],
+      graduation_url: [''],
+      aadhaar_url: [''],
+      aadhaar2_url: [''],
+      voterid_url: [''],
+      voterid2_url: [''],
       is_synced: [0],
     });
   }
@@ -133,19 +160,126 @@ export class VoterAddPage implements OnInit {
     return `V-${last5}-${created}-${namePart}`;
   }
 
-  async onSave() {
-    if(this.submiting) {
-      return false;
+  async capturePhoto(type:any) {
+    this.actionSheet = await this.actionSheetCtrl.create({
+      header: 'Select Image Source',
+      buttons: [
+        {
+          text: 'Take a Photo',
+          icon: 'camera',
+          handler: () => this.selectImage(CameraSource.Camera,type),
+        },
+        {
+          text: 'Choose from Gallery',
+          icon: 'image',
+          handler: () => this.selectImage(CameraSource.Photos,type),
+        },
+        {
+          text: 'Cancel',
+          icon: 'close',
+          role: 'cancel',
+        },
+      ],
+    });
+    await this.actionSheet.present();
+  }
+
+  async selectImage(source: CameraSource, type:any) {
+
+    this.imgload = true;
+    setTimeout(() => {
+      this.imgload = false;
+    }, 4000);
+
+    this.actionSheet.dismiss();
+
+    const image = await Camera.getPhoto({
+      quality: 50,
+      source: source,
+      resultType: CameraResultType.Uri // Important: Get URI instead of base64
+    });
+  
+    const blob = await fetch(image.webPath!).then(res => res.blob());
+    const file = new File([blob], `${type}_${Date.now()}.jpg`, { type: "image/jpeg" });
+
+    this.selectedImages[type] = file;
+   
+    if( 'photo' == type ) {
+      this.doc_photo = image.webPath;
     }
+    if( 'aadhaar' == type ) {
+      this.doc_aadhaar = image.webPath;
+    }
+    if( 'aadhaar2' == type ) {
+      this.doc_aadhaar2 = image.webPath;
+    }
+    if( 'voterid' == type ) {
+      this.doc_voterid = image.webPath;
+    }
+    if( 'voterid2' == type ) {
+      this.doc_voterid2 = image.webPath;
+    }
+    if( 'graduation' == type ) {
+      this.doc_graduation = image.webPath;
+    }
+  
+    this.imgload = false;
+  }
+
+
+  async removePhoto(type:any) {
+    const alert = await this.alertController.create({
+      header: 'Confirm Delete',
+      message: 'Are you sure you want to delete?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            //console.log('Delete canceled');
+          },
+        },
+        {
+          text: 'Delete',
+          role: 'destructive',
+          handler: () => {
+            this.selectedImages[type] = null;
+            if( 'photo' == type ) {
+              this.doc_photo = null;
+            }
+            if( 'aadhaar' == type ) {
+              this.doc_aadhaar = null;
+            }
+            if( 'aadhaar2' == type ) {
+              this.doc_aadhaar2 = null;
+            }
+            if( 'voterid' == type ) {
+              this.doc_voterid = null;
+            }
+            if( 'voterid2' == type ) {
+              this.doc_voterid2 = null;
+            }
+            if( 'graduation' == type ) {
+              this.doc_graduation = null;
+            }
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  async onSave() {
     this.saving = true;
 
-    console.log('saving', this.saving);
-    console.log('submiting', this.submiting);
+    for (const key in this.selectedImages) {
 
-
-    console.log('saving', this.saving);
-    console.log('submiting', this.submiting);
-
+        let _img:any = this.selectedImages[key] ? this.selectedImages[key] : null;
+        let _key:any = key + '_url';
+        console.log(_img);
+        this.voterForm.controls[_key].setValue(_img);
+    }
 
     if (this.voterForm.valid) {
 
@@ -159,10 +293,9 @@ export class VoterAddPage implements OnInit {
       const formData = this.voterForm.value;
 
       console.log(uid);
+      console.log(formData);
 
       setTimeout(() => {
-
-          
 
           this.storage.saveVoter(formData)
           .then((result:any) => {
@@ -182,6 +315,11 @@ export class VoterAddPage implements OnInit {
       }, 1500);
 
     } else {
+      this.voterForm.get('name_en')?.markAsTouched();
+      this.voterForm.get('mobile_no')?.markAsTouched();
+      this.voterForm.get('whatsapp_no')?.markAsTouched();
+      this.voterForm.get('email')?.markAsTouched();
+      this.voterForm.get('district')?.markAsTouched();
       console.log('Form is invalid');
       this.saving = false;
     }
@@ -189,51 +327,30 @@ export class VoterAddPage implements OnInit {
   }
 
   async onSubmit() {
-    if(this.saving) {
-      return false;
-    }
-    this.submiting = true;
-    console.log('saving', this.saving);
-    console.log('submiting', this.submiting);
-
-    console.log('saving', this.saving);
-    console.log('submiting', this.submiting);
-
-    setTimeout(() => {
-    this.submiting = false;
-    }, 2000);
-    return;
-
-    // if (this.voterForm.valid) {
-    //   this.showLoading();
-    
-    //  let uid = this.generateVoterUID(this.voterForm.value);
-    //  if(uid) {
-      //   this.voterForm.controls['voter_uid'].setValue(uid);
-      //  }
-
-     //   const formData = this.voterForm.value;
-
-      //  console.log(uid);
-    //   setTimeout(() => {
-
-    //       (window as any).electronAPI.insertVoter(formData)
-    //       .then((result:any) => {
-    //         this.loadingCtrl2.dismiss();
-    //         this.presentToast('secondary', 'Voter added successfully!');
-    //         this.voterForm.reset();
-    //         this.router.navigate(['/welcome']);
-    //       })
-    //       .catch((err:any) => {
-    //         this.presentToast('dark', 'Somthing went wrong!');
-    //       });
-
-    //   }, 1500);
-
-    // } else {
-    //   console.log('Form is invalid');
+    // if(this.saving) {
+    //   return false;
     // }
+    // this.submiting = true;
+    // console.log('saving', this.saving);
+    // console.log('submiting', this.submiting);
+
+    // console.log('saving', this.saving);
+    // console.log('submiting', this.submiting);
+
+    // setTimeout(() => {
+    // this.submiting = false;
+    // }, 2000);
+    // return;
   }
+
+ toBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = error => reject(error);
+    });
+ }
 
   async showLoading() {
     this.loadingCtrl2 = await this.loadingCtrl.create({

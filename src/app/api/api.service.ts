@@ -30,6 +30,7 @@ export class ApiService {
 
   public getMasters() {
     return this.http.get(`${this.apiUrl}/masters`);
+    //return this.http.get(`https://awanish.in/api/get_district`);
   }
 
 }

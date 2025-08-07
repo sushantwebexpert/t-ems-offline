@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastController, LoadingController } from '@ionic/angular';
+import { ToastController, LoadingController, ActionSheetController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { StorageService } from '../../api/storage.service';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 
 @Component({
@@ -27,6 +28,24 @@ export class VoterEditPage implements OnInit {
   selectedWard: string = '';
   selectedMohalla: string = '';
   saving: Boolean = false;
+  actionSheet:any;
+
+  selectedImages: { [key: string]: File | null } = {
+    photo: null,
+    graduation: null,
+    aadhaar: null,
+    aadhaar2: null,
+    voterid: null,
+    voterid2: null
+  };
+
+  doc_photo: any = null;
+  doc_graduation: any = null;
+  doc_aadhaar: any = null;
+  doc_aadhaar2: any = null;
+  doc_voterid: any = null;
+  doc_voterid2: any = null;
+  imgload: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,7 +53,9 @@ export class VoterEditPage implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private loadingCtrl: LoadingController,
-    private storage: StorageService
+    private storage: StorageService,
+    private actionSheetCtrl: ActionSheetController,
+    private alertController: AlertController
   ) {
     this.voterId = +this.route.snapshot.paramMap.get('id')!;
     this.voterForm = this.fb.group({
@@ -65,6 +86,12 @@ export class VoterEditPage implements OnInit {
       mohalla_id: [''],
       aadhaar_voter_id: [''],
       voter_uid: [''],
+      photo_url: [''],
+      graduation_url: [''],
+      aadhaar_url: [''],
+      aadhaar2_url: [''],
+      voterid_url: [''],
+      voterid2_url: [''],
       is_synced: [0],
     });
   }
@@ -101,6 +128,14 @@ export class VoterEditPage implements OnInit {
         this.voterForm.controls['tehsil'].setValue(_voter.tehsil);
         this.voterForm.controls['voter_uid'].setValue(_voter.voter_uid);
 
+        this.voterForm.controls['photo_url'].setValue(_voter.photo_url);
+        this.voterForm.controls['graduation_url'].setValue(_voter.graduation_url);
+        this.voterForm.controls['aadhaar_url'].setValue(_voter.aadhaar_url);
+        this.voterForm.controls['aadhaar2_url'].setValue(_voter.aadhaar2_url);
+        this.voterForm.controls['voterid_url'].setValue(_voter.voterid_url);
+        this.voterForm.controls['voterid2_url'].setValue(_voter.voterid2_url);
+
+
         if(_voter.district) {
           this.voterForm.controls['district'].setValue(_voter.district);
           this.onDistrictChange(_voter.district);
@@ -125,11 +160,27 @@ export class VoterEditPage implements OnInit {
         }
         this.voterForm.controls['aadhaar_voter_id'].setValue(_voter.aadhaar_voter_id);
 
+        if(_voter.aadhaar_url) {this.doc_aadhaar = await this.blobToBase64(_voter.aadhaar_url);}
+        if(_voter.aadhaar2_url) {this.doc_aadhaar2 = await this.blobToBase64(_voter.aadhaar2_url);}
+        if(_voter.graduation_url) {this.doc_graduation = await this.blobToBase64(_voter.graduation_url);}
+        if(_voter.photo_url) {this.doc_photo = await this.blobToBase64(_voter.photo_url);}
+        if(_voter.voterid_url) {this.doc_voterid = await this.blobToBase64(_voter.voterid_url);}
+        if(_voter.voterid2_url) {this.doc_voterid2 = await this.blobToBase64(_voter.voterid2_url);}
+
       }
     } catch (error) {
       console.error('Failed to load voter', error);
     }
       
+  }
+
+  blobToBase64(blob: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
   }
 
   async onDistrictChange(district_id: string) {
@@ -187,8 +238,127 @@ export class VoterEditPage implements OnInit {
     return `V-${last5}-${created}-${namePart}`;
   }
 
+  
+  async capturePhoto(type:any) {
+    this.actionSheet = await this.actionSheetCtrl.create({
+      header: 'Select Image Source',
+      buttons: [
+        {
+          text: 'Take a Photo',
+          icon: 'camera',
+          handler: () => this.selectImage(CameraSource.Camera,type),
+        },
+        {
+          text: 'Choose from Gallery',
+          icon: 'image',
+          handler: () => this.selectImage(CameraSource.Photos,type),
+        },
+        {
+          text: 'Cancel',
+          icon: 'close',
+          role: 'cancel',
+        },
+      ],
+    });
+    await this.actionSheet.present();
+  }
+
+  async selectImage(source: CameraSource, type:any) {
+
+    this.imgload = true;
+    setTimeout(() => {
+      this.imgload = false;
+    }, 4000);
+
+    this.actionSheet.dismiss();
+
+    const image = await Camera.getPhoto({
+      quality: 50,
+      source: source,
+      resultType: CameraResultType.Uri // Important: Get URI instead of base64
+    });
+  
+    const blob = await fetch(image.webPath!).then(res => res.blob());
+    const file = new File([blob], `${type}_${Date.now()}.jpg`, { type: "image/jpeg" });
+
+    this.selectedImages[type] = file;
+   
+    if( 'photo' == type ) {
+      this.doc_photo = image.webPath;
+    }
+    if( 'aadhaar' == type ) {
+      this.doc_aadhaar = image.webPath;
+    }
+    if( 'aadhaar2' == type ) {
+      this.doc_aadhaar2 = image.webPath;
+    }
+    if( 'voterid' == type ) {
+      this.doc_voterid = image.webPath;
+    }
+    if( 'voterid2' == type ) {
+      this.doc_voterid2 = image.webPath;
+    }
+    if( 'graduation' == type ) {
+      this.doc_graduation = image.webPath;
+    }
+  
+    this.imgload = false;
+  }
+
+
+  async removePhoto(type:any) {
+    const alert = await this.alertController.create({
+      header: 'Confirm Delete',
+      message: 'Are you sure you want to delete?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            //console.log('Delete canceled');
+          },
+        },
+        {
+          text: 'Delete',
+          role: 'destructive',
+          handler: () => {
+            this.selectedImages[type] = null;
+            if( 'photo' == type ) {
+              this.doc_photo = null;
+            }
+            if( 'aadhaar' == type ) {
+              this.doc_aadhaar = null;
+            }
+            if( 'aadhaar2' == type ) {
+              this.doc_aadhaar2 = null;
+            }
+            if( 'voterid' == type ) {
+              this.doc_voterid = null;
+            }
+            if( 'voterid2' == type ) {
+              this.doc_voterid2 = null;
+            }
+            if( 'graduation' == type ) {
+              this.doc_graduation = null;
+            }
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
   async onSubmit() {
     this.saving = true;
+
+    for (const key in this.selectedImages) {
+
+        let _img:any = this.selectedImages[key] ? this.selectedImages[key] : null;
+        let _key:any = key + '_url';
+        console.log(_img);
+        this.voterForm.controls[_key].setValue(_img);
+    }
 
     if (this.voterForm.valid) {
       this.showLoading();
@@ -223,6 +393,12 @@ export class VoterEditPage implements OnInit {
       }, 1500);
 
     } else {
+      this.voterForm.get('name_en')?.markAsTouched();
+      this.voterForm.get('mobile_no')?.markAsTouched();
+      this.voterForm.get('whatsapp_no')?.markAsTouched();
+      this.voterForm.get('email')?.markAsTouched();
+      this.voterForm.get('district')?.markAsTouched();
+
       console.log('Form is invalid');
       this.saving = false;
     }

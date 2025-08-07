@@ -18,6 +18,10 @@ export class WelcomePage implements OnInit {
   srvrMsg: any='';
   uploadedIds: any[] = [];
   masterData: Boolean = false;
+
+  cleaning: Boolean = false;
+  cleanedDB: Boolean = true;
+
   public appPages = [
     { title: 'Add New Voter', url: '/voter-add', icon: 'person-add' },
     { title: 'Sync to Server', url: '/upload', icon: 'cloud-upload' },
@@ -28,6 +32,7 @@ export class WelcomePage implements OnInit {
   ngOnInit() {
     this._dis = localStorage.getItem('ems_app_user_district');
     this.checkDB();
+    this.checkCleanDB();
   }
 
   handleChange($event:any) {
@@ -42,8 +47,17 @@ export class WelcomePage implements OnInit {
       this.masterData = false;
     }
     console.log(_masterData);
-    
   }
+
+  async checkCleanDB() {
+     this.storage.getAllVotersBySynced(0)
+      .then((result:any) => {
+          if(result) {
+            this.cleanedDB = false;
+          }
+      })
+  }
+
 
   getMasters() {
     this.masterSync = true;
@@ -61,6 +75,39 @@ export class WelcomePage implements OnInit {
         this.masterSync = false;
       }
     );
+  }
+
+  cleanDB() {
+    this.cleaning = true;
+
+    setTimeout(() => {
+
+
+           this.storage.getAllVotersBySynced(1)
+      .then((result:any) => {
+          console.log(result);
+          if(result) {
+ 
+            for (const v of result) {
+              console.log(v);
+              
+                // this.storage.deleteVoterByID(v.id);
+              }
+              this.cleaning = false;
+              this.checkCleanDB();
+          }
+      })
+      .catch((err:any) => {
+        console.error('Insert Error:', err);
+        alert('Somthing went wrong!');
+        this.cleaning = false;
+      });
+
+
+      
+    }, 90000);
+
+
   }
 
 }

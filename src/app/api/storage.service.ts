@@ -186,4 +186,8 @@ export class StorageService {
     }
   }
 
+  /**** Delete ****/
+  async deleteVoterByID(id: any): Promise<any> {
+    return await this.db.voters.delete(id);
+  }
 }
