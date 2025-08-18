@@ -12,259 +12,292 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <form [formGroup]="voterForm" (ngSubmit)="onSubmit()">
-    <ion-grid>
-      <ion-row>
-          <ion-col size="12"><h3 class="section-title">Personal Information</h3></ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-input label="Name (English)" label-placement="stacked" fill="outline" placeholder="Enter name in English" formControlName="name_en"></ion-input>
-          </ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-input label="Name (Hindi)" label-placement="stacked" fill="outline" placeholder="Enter name in Hindi" formControlName="name_hi"></ion-input>
-          </ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-input label="Mobile No" label-placement="stacked" fill="outline" type="tel" placeholder="Enter mobile number" formControlName="mobile_no"></ion-input>
-          </ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-select label="Gender" label-placement="stacked" fill="outline" formControlName="gender">
-                <ion-select-option value="male">Male</ion-select-option>
-                <ion-select-option value="female">Female</ion-select-option>
-                <ion-select-option value="other">Other</ion-select-option>
-            </ion-select>
-          </ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-input type="date" label="Date of Birth" label-placement="stacked" fill="outline" presentation="date" formControlName="dob"></ion-input>
-          </ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-input label="WhatsApp No" label-placement="stacked" fill="outline" type="tel" placeholder="Enter WhatsApp number" formControlName="whatsapp_no"></ion-input>
-          </ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-input label="Email" label-placement="stacked" fill="outline" type="email" placeholder="Enter email" formControlName="email"></ion-input>
-          </ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-input label="Relative Name" label-placement="stacked" fill="outline" placeholder="Enter relative's name" formControlName="relative_name"></ion-input>
-          </ion-col>
-          <ion-col size="12"><h3 class="section-title">Education & Profession</h3></ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-input label="Qualification" label-placement="stacked" fill="outline" placeholder="Enter qualification" formControlName="qualification"></ion-input>
-          </ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-input label="Graduation University" label-placement="stacked" fill="outline" placeholder="Enter university name" formControlName="graduation_university"></ion-input>
-          </ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-input label="Graduation Year" label-placement="stacked" fill="outline" type="number" placeholder="Enter graduation year" formControlName="graduation_year"></ion-input>
-          </ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-input label="Qualification Certificate For" label-placement="stacked" fill="outline" placeholder="Enter certificate info" formControlName="qualification_certificate_for"></ion-input>
-          </ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-input label="Profession" label-placement="stacked" fill="outline" placeholder="Enter profession" formControlName="profession"></ion-input>
-          </ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-input label="Additional Document" label-placement="stacked" fill="outline" placeholder="Enter document details" formControlName="additional_document"></ion-input>
-          </ion-col>
-          <ion-col size="12"><h3 class="section-title">Address Details</h3></ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-input label="Address" label-placement="stacked" fill="outline" placeholder="Enter full address" formControlName="address"></ion-input>
-          </ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-input label="House No" label-placement="stacked" fill="outline" placeholder="Enter house number" formControlName="house_no"></ion-input>
-          </ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-input label="Gali" label-placement="stacked" fill="outline" placeholder="Enter gali name" formControlName="gali"></ion-input>
-          </ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-input label="Village/Town" label-placement="stacked" fill="outline" placeholder="Enter village or town" formControlName="village_town"></ion-input>
-          </ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-input label="Post Office" label-placement="stacked" fill="outline" placeholder="Enter post office" formControlName="post_office"></ion-input>
-          </ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-input label="Tehsil" label-placement="stacked" fill="outline" placeholder="Enter tehsil" formControlName="tehsil"></ion-input>
-          </ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-select label="District" label-placement="stacked" fill="outline" formControlName="district" (ionChange)="onDistrictChange($event.detail.value)">
-                <!-- Options should be loaded dynamically -->
-                <ion-select-option value="">Select a District</ion-select-option>
-                <ion-select-option *ngFor="let d of districts" [value]="d.id">
-                  {{ d.name_en }}
-                </ion-select-option>
-            </ion-select>
-
-          </ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-select label="Vidhan Sabha" label-placement="stacked" fill="outline" formControlName="vidhan_sabha_id" (ionChange)="onVSChange($event.detail.value)">
-                <!-- Options should be loaded dynamically -->
-                <ion-select-option value="">Select a Vidhan Sabha</ion-select-option>
-                <ion-select-option *ngFor="let vs of vidhanSabhas" [value]="vs.id">
-                  {{ vs.name_en }}
-                </ion-select-option>
-            </ion-select>
-          </ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-select label="Ward" label-placement="stacked" fill="outline" formControlName="ward_id" (ionChange)="onWardChange($event.detail.value)">
-                <!-- Options should be loaded dynamically -->
-                <ion-select-option value="">Select a Ward</ion-select-option>
-                <ion-select-option *ngFor="let ward of wards" [value]="ward.id">
-                  {{ ward.name_en }}
-                </ion-select-option>
-            </ion-select>
-          </ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-select label="Mohalla" label-placement="stacked" fill="outline" formControlName="mohalla_id" (ionChange)="onMohallaChange($event.detail.value)">
-                <!-- Options should be loaded dynamically -->
-                <ion-select-option value="">Select a Mohalla</ion-select-option>
-                <ion-select-option *ngFor="let mohalla of mohallas" [value]="mohalla.id">
-                  {{ mohalla.name_en }}
-                </ion-select-option>
-            </ion-select>
-          </ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-select label="Area" label-placement="stacked" fill="outline" formControlName="area">
-                <!-- Options should be loaded dynamically -->
-                <ion-select-option value="">Select area type</ion-select-option>
-                <ion-select-option value="U">Urban</ion-select-option>
-                <ion-select-option value="R">Rural</ion-select-option>
-            </ion-select>
-          </ion-col>
-          <ion-col size="12"><h3 class="section-title">Identity Details</h3></ion-col>
-          <ion-col size="12" size-sm="4">
-            <ion-input label="Aadhaar / Voter ID" label-placement="stacked" fill="outline" placeholder="Enter ID" formControlName="aadhaar_voter_id"></ion-input>
-          </ion-col>
-      </ion-row>
-
-
-      <!-- graduation_proof Upload -->
-      <ion-item lines="none" class="ion-no-padding">
-        <ion-label position="stacked" style="font-size: 10px;">Graduation Certificate/Marksheet</ion-label>
-        <div *ngIf="doc_graduation"
-          style="margin-bottom: 12px;margin-top: 6px;text-align: center;width: 100%;display: flex;align-items: center;justify-content: space-around;border: 1px dashed #ff9e5e; padding: 8px; border-radius: 12px;">
-          <img [src]="doc_graduation" style="width: 150px;height: 200px;object-fit: contain;">
-          <h6 (click)="removePhoto('graduation')"
-            style="font-size: 12px;display: flex; gap: 2px; margin: 0; border: 2px solid #e5e5e5; padding: 4px 8px; border-radius: 8px; background: #e0e0e0; color: #5d5d5d; font-weight: 400; align-items: center;">
-            <span>Remove</span>
-            <ion-icon name="close-circle-outline" class="closer-icon"></ion-icon>
-          </h6>
-        </div>
-        <div *ngIf="!doc_graduation" style="width: 100%;">
-          <ion-button expand="full" type="button" (click)="capturePhoto('graduation')" class="app-upload-btn"><ion-icon name="image-outline"></ion-icon> &nbsp;Add Graduation Certificate</ion-button>
-        </div>
-      </ion-item>
-
-      <!-- Photo Upload -->
-      <ion-item lines="none" class="ion-no-padding">
-        <ion-label position="stacked">Upload Passport Size Photo </ion-label>
-        <div *ngIf="doc_photo"
-          style="margin-bottom: 12px;margin-top: 6px;text-align: center;width: 100%;display: flex;align-items: center;justify-content: space-around;border: 1px dashed #ff9e5e; padding: 8px; border-radius: 12px;">
-          <img [src]="doc_photo" style="width: 150px;height: 200px;object-fit: contain;">
-          <h6 (click)="removePhoto('photo')"
-            style="font-size: 12px;display: flex; gap: 2px; margin: 0; border: 2px solid #e5e5e5; padding: 4px 8px; border-radius: 8px; background: #e0e0e0; color: #5d5d5d; font-weight: 400; align-items: center;">
-            <span>Remove</span>
-            <ion-icon name="close-circle-outline" class="closer-icon"></ion-icon>
-          </h6>
-        </div>
-        <div *ngIf="!doc_photo" style="width: 100%;">
-          <ion-button expand="full" type="button" (click)="capturePhoto('photo')" class="app-upload-btn"><ion-icon name="image-outline"></ion-icon> &nbsp;Add Photo</ion-button>
-        </div>
-      </ion-item>
-
-      <!-- Address Proof Upload -->
-      <ion-item lines="none" class="ion-no-padding">
-        <ion-label position="stacked">Upload Address Proof</ion-label>
-
-        <ion-grid class="ion-no-padding" style="width: 100%;">
-          <ion-row class="ion-align-items-center ion-no-padding">
-            <ion-col size="5">
-
-              <div *ngIf="doc_aadhaar"
-                style="margin-bottom: 28px; margin-top: 6px; text-align: center; width: 100%; display: flex ; align-items: center; flex-direction: column; gap: 8px;border: 1px dashed #ff9e5e; padding: 8px; border-radius: 12px;">
-                <img [src]="doc_aadhaar" style="width: 150px;height: 200px;object-fit: contain;">
-                <h6 (click)="removePhoto('aadhaar')"
-                  style="font-size: 12px;display: flex; gap: 2px; margin: 0; border: 2px solid #e5e5e5; padding: 4px 8px; border-radius: 8px; background: #e0e0e0; color: #5d5d5d; font-weight: 400; align-items: center;">
-                  <span>Remove</span>
-                  <ion-icon name="close-circle-outline" class="closer-icon"></ion-icon>
-                </h6>
-              </div>
-
-              <div *ngIf="!doc_aadhaar" style="width: 100%;">
-                <ion-button expand="full" type="button" (click)="capturePhoto('aadhaar')" class="app-upload-btn"><ion-icon name="image-outline"></ion-icon> &nbsp;Add Aadhaar Front Side</ion-button>
-              </div>
-
-
-              <div *ngIf="doc_aadhaar2"
-                style="margin-bottom: 12px; margin-top: 6px; text-align: center; width: 100%; display: flex ; align-items: center; flex-direction: column; gap: 8px;border: 1px dashed #ff9e5e; padding: 8px; border-radius: 12px;">
-                <img [src]="doc_aadhaar2" style="width: 150px;height: 200px;object-fit: contain;">
-                <h6 (click)="removePhoto('aadhaar2')"
-                  style="font-size: 12px;display: flex; gap: 2px; margin: 0; border: 2px solid #e5e5e5; padding: 4px 8px; border-radius: 8px; background: #e0e0e0; color: #5d5d5d; font-weight: 400; align-items: center;">
-                  <span>Remove</span>
-                  <ion-icon name="close-circle-outline" class="closer-icon"></ion-icon>
-                </h6>
-              </div>
-
-              <div *ngIf="!doc_aadhaar2" style="width: 100%;">
-                <ion-button expand="full" type="button" (click)="capturePhoto('aadhaar2')" class="app-upload-btn"><ion-icon name="image-outline"></ion-icon> &nbsp;Add Aadhaar Back Side</ion-button>
-              </div>
-
-
-
+  <div *ngIf="pageLoading">Loading...</div>
+  <div *ngIf="!pageLoading">
+    <form [formGroup]="voterForm" (ngSubmit)="onSubmit()">
+      <ion-grid>
+        <ion-row>
+            <ion-col size="12"><h3 class="section-title">Personal Information</h3></ion-col>
+            <ion-col size="12" size-sm="4">
+              <ion-input label="Name (English)" label-placement="stacked" fill="outline" placeholder="Enter name in English" formControlName="name_en"></ion-input>
             </ion-col>
-            <ion-col size="2">
-              <div class="ion-text-center" style="height: 44px; margin-bottom: 12px; font-size: 10px; line-height: 44px;color: #868686; font-weight: 300;">
-                Or
-              </div>
+            <ion-col size="12" size-sm="4">
+              <ion-input label="Name (Hindi)" label-placement="stacked" fill="outline" placeholder="Enter name in Hindi" formControlName="name_hi"></ion-input>
             </ion-col>
-            <ion-col size="5">
-
-              <div *ngIf="doc_voterid"
-                style="margin-bottom: 28px; margin-top: 6px; text-align: center; width: 100%; display: flex ; align-items: center; flex-direction: column; gap: 8px;border: 1px dashed #ff9e5e; padding: 8px; border-radius: 12px;">
-                <img [src]="doc_voterid" style="width: 150px;height: 200px;object-fit: contain;">
-                <h6 (click)="removePhoto('voterid')"
-                  style="font-size: 12px;display: flex; gap: 2px; margin: 0; border: 2px solid #e5e5e5; padding: 4px 8px; border-radius: 8px; background: #e0e0e0; color: #5d5d5d; font-weight: 400; align-items: center;">
-                  <span>Remove</span>
-                  <ion-icon name="close-circle-outline" class="closer-icon"></ion-icon>
-                </h6>
-              </div>
-              <div *ngIf="!doc_voterid" style="width: 100%;">
-                <ion-button expand="full" type="button" (click)="capturePhoto('voterid')" class="app-upload-btn"><ion-icon name="image-outline"></ion-icon> &nbsp;Add Voter ID Front Side</ion-button>
-              </div>
-
-              <div *ngIf="doc_voterid2"
-                style="margin-bottom: 12px; margin-top: 6px; text-align: center; width: 100%; display: flex ; align-items: center; flex-direction: column; gap: 8px;border: 1px dashed #ff9e5e; padding: 8px; border-radius: 12px;">
-                <img [src]="doc_voterid2" style="width: 150px;height: 200px;object-fit: contain;">
-                <h6 (click)="removePhoto('voterid2')"
-                  style="font-size: 12px;display: flex; gap: 2px; margin: 0; border: 2px solid #e5e5e5; padding: 4px 8px; border-radius: 8px; background: #e0e0e0; color: #5d5d5d; font-weight: 400; align-items: center;">
-                  <span>Remove</span>
-                  <ion-icon name="close-circle-outline" class="closer-icon"></ion-icon>
-                </h6>
-              </div>
-              <div *ngIf="!doc_voterid2" style="width: 100%;">
-                <ion-button expand="full" type="button" (click)="capturePhoto('voterid2')" class="app-upload-btn"><ion-icon name="image-outline"></ion-icon> &nbsp;Add Voter ID Back Side</ion-button>
-              </div>
-
+            <ion-col size="12" size-sm="4">
+              <ion-input label="Mobile No" label-placement="stacked" fill="outline" type="tel" placeholder="Enter mobile number" formControlName="mobile_no"></ion-input>
             </ion-col>
-          </ion-row>
-        </ion-grid>
+            <ion-col size="12" size-sm="4">
+              <ion-select label="Gender" label-placement="stacked" fill="outline" formControlName="gender" interface="action-sheet">
+                  <ion-select-option value="Male">Male</ion-select-option>
+                  <ion-select-option value="Female">Female</ion-select-option>
+                  <ion-select-option value="Other">Other</ion-select-option>
+              </ion-select>
+            </ion-col>
+            <ion-col size="12" size-sm="4">
+              <ion-input type="date" label="Date of Birth" label-placement="stacked" fill="outline" presentation="date" formControlName="dob"></ion-input>
+            </ion-col>
+            <ion-col size="12" size-sm="4">
+              <ion-input label="WhatsApp No" label-placement="stacked" fill="outline" type="tel" placeholder="Enter WhatsApp number" formControlName="whatsapp_no"></ion-input>
+            </ion-col>
+            <ion-col size="12" size-sm="4">
+              <ion-input label="Email" label-placement="stacked" fill="outline" type="email" placeholder="Enter email" formControlName="email"></ion-input>
+            </ion-col>
+            <ion-col size="12" size-sm="4">
+              <ion-input label="Relative Name" label-placement="stacked" fill="outline" placeholder="Enter relative's name" formControlName="relative_name"></ion-input>
+            </ion-col>
+            <ion-col size="12"><h3 class="section-title">Education & Profession</h3></ion-col>
+            <ion-col size="12" size-sm="4">
+              <ion-input label="Qualification" label-placement="stacked" fill="outline" placeholder="Enter qualification" formControlName="qualification"></ion-input>
+            </ion-col>
+            <ion-col size="12" size-sm="4">
+              <ion-input label="Graduation University" label-placement="stacked" fill="outline" placeholder="Enter university name" formControlName="graduation_university"></ion-input>
+            </ion-col>
+            <ion-col size="12" size-sm="4">
+              <ion-input label="Graduation Year" label-placement="stacked" fill="outline" type="number" placeholder="Enter graduation year" formControlName="graduation_year"></ion-input>
+            </ion-col>
+            <ion-col size="12" size-sm="4">
+              <ion-input label="Qualification Certificate For" label-placement="stacked" fill="outline" placeholder="Enter certificate info" formControlName="qualification_certificate_for"></ion-input>
+            </ion-col>
+            <ion-col size="12" size-sm="4">
+              <ion-input label="Profession" label-placement="stacked" fill="outline" placeholder="Enter profession" formControlName="profession"></ion-input>
+            </ion-col>
+            <ion-col size="12" size-sm="4">
+              <ion-input label="Additional Document" label-placement="stacked" fill="outline" placeholder="Enter document details" formControlName="additional_document"></ion-input>
+            </ion-col>
+            <ion-col size="12"><h3 class="section-title">Address Details</h3></ion-col>
+            <ion-col size="12" size-sm="4">
+              <ion-input label="Address" label-placement="stacked" fill="outline" placeholder="Enter full address" formControlName="address"></ion-input>
+            </ion-col>
+            <ion-col size="12" size-sm="4">
+              <ion-input label="House No" label-placement="stacked" fill="outline" placeholder="Enter house number" formControlName="house_no"></ion-input>
+            </ion-col>
+            <ion-col size="12" size-sm="4">
+              <ion-input label="Gali" label-placement="stacked" fill="outline" placeholder="Enter gali name" formControlName="gali"></ion-input>
+            </ion-col>
+            <ion-col size="12" size-sm="4">
+              <ion-input label="Village/Town" label-placement="stacked" fill="outline" placeholder="Enter village or town" formControlName="village_town"></ion-input>
+            </ion-col>
+            <ion-col size="12" size-sm="4">
+              <ion-input label="Post Office" label-placement="stacked" fill="outline" placeholder="Enter post office" formControlName="post_office"></ion-input>
+            </ion-col>
+            <ion-col size="12" size-sm="4">
+              <ion-input label="Tehsil" label-placement="stacked" fill="outline" placeholder="Enter tehsil" formControlName="tehsil"></ion-input>
+            </ion-col>
+            </ion-row>
 
-      </ion-item>
+
+            <!-- For Lucknow -->
+            <ion-row *ngIf="app_user.district == 'lucknow'">
+              <ion-col size="12" size-sm="4">
+                <ion-select label="District" label-placement="stacked" fill="outline" formControlName="district" (ionChange)="onDistrictChange($event.detail.value)">
+                    <ion-select-option *ngFor="let d of districts" [value]="d.id" disabled="true">
+                      {{ d.name_en }}
+                    </ion-select-option>
+                </ion-select>
+              </ion-col>
+              <ion-col size="12" size-sm="4">
+                <ion-select label="Vidhan Sabha" label-placement="stacked" fill="outline" formControlName="vidhan_sabha_id" (ionChange)="onVSChange($event.detail.value)" interface="action-sheet">
+                    <ion-select-option value="">Select a Vidhan Sabha</ion-select-option>
+                    <ion-select-option *ngFor="let vs of vidhanSabhas" [value]="vs.id">
+                      {{ vs.vidhan_sabha_number }} - {{ vs.name_en }} / {{ vs.name_hi }}
+                    </ion-select-option>
+                </ion-select>
+              </ion-col>
+              <ion-col size="12" size-sm="4">
+                <ion-select label="Ward" label-placement="stacked" fill="outline" formControlName="ward_id" (ionChange)="onWardChange($event.detail.value)" interface="action-sheet">
+                    <ion-select-option value="">Select a Ward</ion-select-option>
+                    <ion-select-option *ngFor="let ward of wards" [value]="ward.id">
+                      {{ ward.name_en }} / {{ ward.name_hi }}
+                    </ion-select-option>
+                </ion-select>
+              </ion-col>
+              <ion-col size="12" size-sm="4">
+                <ion-select label="Mohalla" label-placement="stacked" fill="outline" formControlName="mohalla_id" (ionChange)="onMohallaChange($event.detail.value)" interface="action-sheet">
+                    <ion-select-option value="">Select a Mohalla</ion-select-option>
+                    <ion-select-option *ngFor="let mohalla of mohallas" [value]="mohalla.id">
+                      {{ mohalla.name_en }}
+                    </ion-select-option>
+                </ion-select>
+              </ion-col>
+            </ion-row>
+
+            <!-- For All Others -->
+            <ion-row *ngIf="app_user.district != 'lucknow'">
+              <ion-col size="12" size-sm="4">
+                <ion-select label="District" label-placement="stacked" fill="outline" formControlName="district">
+                    <ion-select-option *ngFor="let d of districts" [value]="d.id" disabled="disabled">
+                      {{ d.name_en }}
+                    </ion-select-option>
+                </ion-select>
+              </ion-col>
+              <ion-col size="12" size-sm="4">
+                <ion-select label="Vidhan Sabha" label-placement="stacked" fill="outline" formControlName="vidhan_sabha_id" interface="action-sheet">
+                    <ion-select-option value="">Select a Vidhan Sabha</ion-select-option>
+                    <ion-select-option *ngFor="let vs of vidhanSabhas" [value]="vs.id">
+                      {{ vs.vidhan_sabha_number }} - {{ vs.name_en }} / {{ vs.name_hi }}
+                    </ion-select-option>
+                </ion-select>
+              </ion-col>
+              <ion-col size="12" size-sm="4">
+                <ion-select label="Ward" label-placement="stacked" fill="outline" formControlName="ward_id" interface="action-sheet">
+                    <ion-select-option value="">Select a Ward</ion-select-option>
+                    <ion-select-option *ngFor="let ward of wards" [value]="ward.id">
+                       {{ ward.name_en }} / {{ ward.name_hi }}
+                    </ion-select-option>
+                </ion-select>
+              </ion-col>
+            </ion-row>
+
+
+            <ion-row>
+            <ion-col size="12" size-sm="4">
+              <ion-select label="Area" label-placement="stacked" fill="outline" formControlName="area" interface="action-sheet">
+                  <!-- Options should be loaded dynamically -->
+                  <ion-select-option value="">Select area type</ion-select-option>
+                  <ion-select-option value="U">Urban</ion-select-option>
+                  <ion-select-option value="R">Rural</ion-select-option>
+              </ion-select>
+            </ion-col>
+            <ion-col size="12"><h3 class="section-title">Identity Details</h3></ion-col>
+            <ion-col size="12" size-sm="4">
+              <ion-input label="Aadhaar / Voter ID" label-placement="stacked" fill="outline" placeholder="Enter ID" formControlName="aadhaar_voter_id"></ion-input>
+            </ion-col>
+        </ion-row>
+
+
+        <!-- graduation_proof Upload -->
+        <ion-item lines="none" class="ion-no-padding">
+          <ion-label position="stacked" style="font-size: 10px;">Graduation Certificate/Marksheet</ion-label>
+          <div *ngIf="doc_graduation"
+            style="margin-bottom: 12px;margin-top: 6px;text-align: center;width: 100%;display: flex;align-items: center;justify-content: space-around;border: 1px dashed #ff9e5e; padding: 8px; border-radius: 12px;">
+            <img [src]="doc_graduation" style="width: 150px;height: 200px;object-fit: contain;">
+            <h6 (click)="removePhoto('graduation')"
+              style="font-size: 12px;display: flex; gap: 2px; margin: 0; border: 2px solid #e5e5e5; padding: 4px 8px; border-radius: 8px; background: #e0e0e0; color: #5d5d5d; font-weight: 400; align-items: center;">
+              <span>Remove</span>
+              <ion-icon name="close-circle-outline" class="closer-icon"></ion-icon>
+            </h6>
+          </div>
+          <div *ngIf="!doc_graduation" style="width: 100%;">
+            <ion-button expand="full" type="button" (click)="capturePhoto('graduation')" class="app-upload-btn"><ion-icon name="image-outline"></ion-icon> &nbsp;Add Graduation Certificate</ion-button>
+          </div>
+        </ion-item>
+
+        <!-- Photo Upload -->
+        <ion-item lines="none" class="ion-no-padding">
+          <ion-label position="stacked">Upload Passport Size Photo </ion-label>
+          <div *ngIf="doc_photo"
+            style="margin-bottom: 12px;margin-top: 6px;text-align: center;width: 100%;display: flex;align-items: center;justify-content: space-around;border: 1px dashed #ff9e5e; padding: 8px; border-radius: 12px;">
+            <img [src]="doc_photo" style="width: 150px;height: 200px;object-fit: contain;">
+            <h6 (click)="removePhoto('photo')"
+              style="font-size: 12px;display: flex; gap: 2px; margin: 0; border: 2px solid #e5e5e5; padding: 4px 8px; border-radius: 8px; background: #e0e0e0; color: #5d5d5d; font-weight: 400; align-items: center;">
+              <span>Remove</span>
+              <ion-icon name="close-circle-outline" class="closer-icon"></ion-icon>
+            </h6>
+          </div>
+          <div *ngIf="!doc_photo" style="width: 100%;">
+            <ion-button expand="full" type="button" (click)="capturePhoto('photo')" class="app-upload-btn"><ion-icon name="image-outline"></ion-icon> &nbsp;Add Photo</ion-button>
+          </div>
+        </ion-item>
+
+        <!-- Address Proof Upload -->
+        <ion-item lines="none" class="ion-no-padding">
+          <ion-label position="stacked">Upload Address Proof</ion-label>
+
+          <ion-grid class="ion-no-padding" style="width: 100%;">
+            <ion-row class="ion-align-items-center ion-no-padding">
+              <ion-col size="5">
+
+                <div *ngIf="doc_aadhaar"
+                  style="margin-bottom: 28px; margin-top: 6px; text-align: center; width: 100%; display: flex ; align-items: center; flex-direction: column; gap: 8px;border: 1px dashed #ff9e5e; padding: 8px; border-radius: 12px;">
+                  <img [src]="doc_aadhaar" style="width: 150px;height: 200px;object-fit: contain;">
+                  <h6 (click)="removePhoto('aadhaar')"
+                    style="font-size: 12px;display: flex; gap: 2px; margin: 0; border: 2px solid #e5e5e5; padding: 4px 8px; border-radius: 8px; background: #e0e0e0; color: #5d5d5d; font-weight: 400; align-items: center;">
+                    <span>Remove</span>
+                    <ion-icon name="close-circle-outline" class="closer-icon"></ion-icon>
+                  </h6>
+                </div>
+
+                <div *ngIf="!doc_aadhaar" style="width: 100%;">
+                  <ion-button expand="full" type="button" (click)="capturePhoto('aadhaar')" class="app-upload-btn"><ion-icon name="image-outline"></ion-icon> &nbsp;Add Aadhaar Front Side</ion-button>
+                </div>
+
+
+                <div *ngIf="doc_aadhaar2"
+                  style="margin-bottom: 12px; margin-top: 6px; text-align: center; width: 100%; display: flex ; align-items: center; flex-direction: column; gap: 8px;border: 1px dashed #ff9e5e; padding: 8px; border-radius: 12px;">
+                  <img [src]="doc_aadhaar2" style="width: 150px;height: 200px;object-fit: contain;">
+                  <h6 (click)="removePhoto('aadhaar2')"
+                    style="font-size: 12px;display: flex; gap: 2px; margin: 0; border: 2px solid #e5e5e5; padding: 4px 8px; border-radius: 8px; background: #e0e0e0; color: #5d5d5d; font-weight: 400; align-items: center;">
+                    <span>Remove</span>
+                    <ion-icon name="close-circle-outline" class="closer-icon"></ion-icon>
+                  </h6>
+                </div>
+
+                <div *ngIf="!doc_aadhaar2" style="width: 100%;">
+                  <ion-button expand="full" type="button" (click)="capturePhoto('aadhaar2')" class="app-upload-btn"><ion-icon name="image-outline"></ion-icon> &nbsp;Add Aadhaar Back Side</ion-button>
+                </div>
+
+
+
+              </ion-col>
+              <ion-col size="2">
+                <div class="ion-text-center" style="height: 44px; margin-bottom: 12px; font-size: 10px; line-height: 44px;color: #868686; font-weight: 300;">
+                  Or
+                </div>
+              </ion-col>
+              <ion-col size="5">
+
+                <div *ngIf="doc_voterid"
+                  style="margin-bottom: 28px; margin-top: 6px; text-align: center; width: 100%; display: flex ; align-items: center; flex-direction: column; gap: 8px;border: 1px dashed #ff9e5e; padding: 8px; border-radius: 12px;">
+                  <img [src]="doc_voterid" style="width: 150px;height: 200px;object-fit: contain;">
+                  <h6 (click)="removePhoto('voterid')"
+                    style="font-size: 12px;display: flex; gap: 2px; margin: 0; border: 2px solid #e5e5e5; padding: 4px 8px; border-radius: 8px; background: #e0e0e0; color: #5d5d5d; font-weight: 400; align-items: center;">
+                    <span>Remove</span>
+                    <ion-icon name="close-circle-outline" class="closer-icon"></ion-icon>
+                  </h6>
+                </div>
+                <div *ngIf="!doc_voterid" style="width: 100%;">
+                  <ion-button expand="full" type="button" (click)="capturePhoto('voterid')" class="app-upload-btn"><ion-icon name="image-outline"></ion-icon> &nbsp;Add Voter ID Front Side</ion-button>
+                </div>
+
+                <div *ngIf="doc_voterid2"
+                  style="margin-bottom: 12px; margin-top: 6px; text-align: center; width: 100%; display: flex ; align-items: center; flex-direction: column; gap: 8px;border: 1px dashed #ff9e5e; padding: 8px; border-radius: 12px;">
+                  <img [src]="doc_voterid2" style="width: 150px;height: 200px;object-fit: contain;">
+                  <h6 (click)="removePhoto('voterid2')"
+                    style="font-size: 12px;display: flex; gap: 2px; margin: 0; border: 2px solid #e5e5e5; padding: 4px 8px; border-radius: 8px; background: #e0e0e0; color: #5d5d5d; font-weight: 400; align-items: center;">
+                    <span>Remove</span>
+                    <ion-icon name="close-circle-outline" class="closer-icon"></ion-icon>
+                  </h6>
+                </div>
+                <div *ngIf="!doc_voterid2" style="width: 100%;">
+                  <ion-button expand="full" type="button" (click)="capturePhoto('voterid2')" class="app-upload-btn"><ion-icon name="image-outline"></ion-icon> &nbsp;Add Voter ID Back Side</ion-button>
+                </div>
+
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+        </ion-item>
 
 
 
 
-      <ion-row>
-          <!-- <ion-col size="12" size-sm="4">
-             <ion-button expand="full" type="submit" class="app-btn" *ngIf="!submiting">Submit</ion-button>
-             <ion-button expand="full" type="submit" class="app-btn" *ngIf="submiting">
-                <ion-spinner name="circular" color="light" style="height: 20px;color: #ffffff;"></ion-spinner>
-             </ion-button>
-          </ion-col> -->
-          <ion-col size="12" size-sm="4">
-             <ion-button expand="full" type="button" *ngIf="!saving" class="app-btn" (click)="onSave()">Save</ion-button>
-             <ion-button expand="full" type="button" *ngIf="saving" class="app-btn">
-                <ion-spinner name="circular" color="light" style="height: 20px;color: #ffffff;"></ion-spinner>
-             </ion-button>
-          </ion-col>
-      </ion-row>
+        <ion-row>
+            <!-- <ion-col size="12" size-sm="4">
+              <ion-button expand="full" type="submit" class="app-btn" *ngIf="!submiting">Submit</ion-button>
+              <ion-button expand="full" type="submit" class="app-btn" *ngIf="submiting">
+                  <ion-spinner name="circular" color="light" style="height: 20px;color: #ffffff;"></ion-spinner>
+              </ion-button>
+            </ion-col> -->
+            <ion-col size="12" size-sm="4">
+              <ion-button expand="full" type="button" *ngIf="!saving" class="app-btn" (click)="onSave()">Save</ion-button>
+              <ion-button expand="full" type="button" *ngIf="saving" class="app-btn">
+                  <ion-spinner name="circular" color="light" style="height: 20px;color: #ffffff;"></ion-spinner>
+              </ion-button>
+            </ion-col>
+        </ion-row>
 
-    </ion-grid>
-  </form>
+      </ion-grid>
+    </form>
+  </div>
 </ion-content>

@@ -47,6 +47,9 @@ export class VoterEditPage implements OnInit {
   doc_voterid2: any = null;
   imgload: boolean = false;
 
+  app_user:any;
+  pageLoading: Boolean = true;
+
   constructor(
     private route: ActivatedRoute,
     private toastController: ToastController,
@@ -62,7 +65,7 @@ export class VoterEditPage implements OnInit {
       name_en: ['', Validators.required],
       name_hi: [''],
       mobile_no: ['', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]],
-      gender: ['male'],
+      gender: ['Male'],
       dob: [''],
       whatsapp_no: ['', [Validators.pattern(/^[6-9]\d{9}$/)]],
       email: ['', [Validators.email]],
@@ -104,6 +107,22 @@ export class VoterEditPage implements OnInit {
     try {
       const data = await this.storage.getVoterByID(this.voterId)
       this.districts = await this.storage.getDistricts();
+
+      let app_user:any = localStorage.getItem('ems_app_user');
+      if(app_user) {
+        this.app_user = JSON.parse(app_user);
+        this.pageLoading = false;
+        if(this.app_user?.district_id) {
+          this.voterForm.controls['district'].setValue(this.app_user.district_id);
+          this.onDistrictChange(this.app_user.district_id);
+          if(this.app_user.district != 'lucknow') {
+              let w:any = await this.storage.getWardsByDistric(this.app_user.district_id);
+              if(w) { this.wards = w; }
+              this.voterForm.controls['area'].setValue('R');
+          } 
+        }
+      }
+
       if (data) {
         let _voter = data;
         this.voterForm.controls['name_en'].setValue(_voter.name_en);
@@ -136,10 +155,13 @@ export class VoterEditPage implements OnInit {
         this.voterForm.controls['voterid2_url'].setValue(_voter.voterid2_url);
 
 
+
+      if(this.app_user.district == 'lucknow') {
         if(_voter.district) {
           this.voterForm.controls['district'].setValue(_voter.district);
           this.onDistrictChange(_voter.district);
         }
+
         if(_voter.vidhan_sabha_id) {
           setTimeout(() => {
             this.onVSChange(_voter.vidhan_sabha_id);
@@ -158,6 +180,12 @@ export class VoterEditPage implements OnInit {
             this.voterForm.controls['mohalla_id'].setValue(_voter.mohalla_id);
           }, 800);
         }
+      } else {
+          this.voterForm.controls['district'].setValue(_voter.district);
+          this.voterForm.controls['vidhan_sabha_id'].setValue(_voter.vidhan_sabha_id);
+          this.voterForm.controls['ward_id'].setValue(_voter.ward_id);
+      }
+
         this.voterForm.controls['aadhaar_voter_id'].setValue(_voter.aadhaar_voter_id);
 
         if(_voter.aadhaar_url) {this.doc_aadhaar = await this.blobToBase64(_voter.aadhaar_url);}
@@ -363,13 +391,13 @@ export class VoterEditPage implements OnInit {
     if (this.voterForm.valid) {
       this.showLoading();
       
-      if(!this.voterForm.value.voter_uid) {
-        let uid = this.generateVoterUID(this.voterForm.value);
-        if(uid) {
-          this.voterForm.controls['voter_uid'].setValue(uid);
-        }
-        console.log(uid);
-      }
+      // if(!this.voterForm.value.voter_uid) {
+      //   let uid = this.generateVoterUID(this.voterForm.value);
+      //   if(uid) {
+      //     this.voterForm.controls['voter_uid'].setValue(uid);
+      //   }
+      //   console.log(uid);
+      // }
       
       const formData = this.voterForm.value;
 

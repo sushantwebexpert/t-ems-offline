@@ -8,8 +8,6 @@ import { StorageService } from '../../api/storage.service';
   styleUrls: ['./welcome.page.scss'],standalone: false
 })
 export class WelcomePage implements OnInit {
-  _dis:any;
-  
   voters: any = [];
   loading: Boolean = true;
   masterSync: Boolean = false;
@@ -30,13 +28,8 @@ export class WelcomePage implements OnInit {
   constructor(private api: ApiService, private storage: StorageService) { }
 
   ngOnInit() {
-    this._dis = localStorage.getItem('ems_app_user_district');
     this.checkDB();
     this.checkCleanDB();
-  }
-
-  handleChange($event:any) {
-    localStorage.setItem('ems_app_user_district', $event.detail.value);
   }
 
   async checkDB() {

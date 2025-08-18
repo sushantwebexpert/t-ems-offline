@@ -88,10 +88,6 @@ export class UploadPage implements OnInit {
         }
       }
 
-      let adasdas = await this.blobToBase64(voter.photo_url);
-      console.log(adasdas);
-      
-
       if (voter.photo_url) { formData.append('photo_url', voter.photo_url, voter['id'] + "_" + voter.photo_url.name ); }
       if (voter.graduation_url) { formData.append('graduation_url', voter.graduation_url, voter['id'] + "_" + voter.graduation_url.name); }
       if (voter.aadhaar_url) { formData.append('aadhaar_url', voter.aadhaar_url, voter['id'] + "_" + voter.aadhaar_url); }
@@ -122,11 +118,14 @@ export class UploadPage implements OnInit {
           });
 
           if (response.ok) {
-              const data = await response.json();
+
+            const data = await response.json();
+
               if(data.inserted) {
-                this.insertedID.push(voter.id);
+                await this.storage.deleteVoterByID(voter.id);
               }
-            // Optionally delete from Dexie here
+
+              // Optionally delete from Dexie here
           } else {
             console.error('❌ Failed to sync voter:', voter.name_en);
           }

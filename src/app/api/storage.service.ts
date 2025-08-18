@@ -25,6 +25,7 @@ export class StorageService {
             await this.db.vidhan_sabhas.put({
               id: vs.vidhan_sabha_id,
               district_id: district.district_id,
+              vidhan_sabha_number: vs.vidhan_sabha_number,
               name_en: vs.vidhan_sabha_name_en,
               name_hi: vs.vidhan_sabha_name_hi,
             });
@@ -33,6 +34,7 @@ export class StorageService {
               await this.db.wards.put({
                 id: ward.ward_id,
                 vidhan_sabha_id: vs.vidhan_sabha_id,
+                district_id: district.district_id,
                 name_en: ward.ward_name_en,
                 name_hi: ward.ward_name_hi,
               });
@@ -91,6 +93,17 @@ export class StorageService {
     const wards = await this.db.wards
           .where('vidhan_sabha_id')
           .equals(vID)
+          .toArray();
+    if(wards) {
+      return wards;
+    }
+    return [];
+  }
+
+  async getWardsByDistric(dID: any) {
+    const wards = await this.db.wards
+          .where('district_id')
+          .equals(dID)
           .toArray();
     if(wards) {
       return wards;

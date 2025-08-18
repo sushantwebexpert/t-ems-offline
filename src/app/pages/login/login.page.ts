@@ -55,7 +55,6 @@ export class LoginPage implements OnInit {
         if(res.status) {
             this.loadingCtrl2.dismiss();
             localStorage.setItem('ems_app_user', JSON.stringify(res.user));
-            localStorage.setItem('ems_app_user_district', res.user.district);
             this.events.publish('user:updated',{});
             this.router.navigate(['/welcome'], { replaceUrl: true });
             this.presentToast('dark', res.message);
@@ -76,26 +75,6 @@ export class LoginPage implements OnInit {
         this.loadingCtrl2.dismiss();
       }
     );
-
-
-
-
-     
-
-          console.log(this.loginForm.value);
-  
-
-          
-          // if(this.loginForm.value.email == 'abcd' && this.loginForm.value.password == '1234') {
-          //   this.loadingCtrl2.dismiss();
-          //   localStorage.setItem('ems_app_user', JSON.stringify({'name': 'Sushant'}));
-          //   this.events.publish('user:updated',{});
-          //   this.router.navigate(['/home'], { replaceUrl: true });
-          // } else {
-          //   this.presentToast('dark', 'Wrong credentials!');
-          //   this.loadingCtrl2.dismiss();
-          // }
-  
         }, 100);
   }
 

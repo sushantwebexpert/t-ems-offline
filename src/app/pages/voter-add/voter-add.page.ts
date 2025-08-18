@@ -12,7 +12,6 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
   styleUrls: ['./voter-add.page.scss'],standalone: false
 })
 export class VoterAddPage implements OnInit {
-
   voterForm: FormGroup;
   loadingCtrl2: any;
 
@@ -47,6 +46,9 @@ export class VoterAddPage implements OnInit {
   doc_voterid2: any = null;
   imgload: boolean = false;
 
+  app_user:any;
+  pageLoading: Boolean = true;
+
   constructor(
     private toastController: ToastController,
     private router: Router,
@@ -60,7 +62,7 @@ export class VoterAddPage implements OnInit {
       name_en: ['', Validators.required],
       name_hi: [''],
       mobile_no: ['', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]],
-      gender: ['male'],
+      gender: ['Male'],
       dob: [''],
       whatsapp_no: ['', [Validators.pattern(/^[6-9]\d{9}$/)]],
       email: ['', [Validators.email]],
@@ -97,10 +99,22 @@ export class VoterAddPage implements OnInit {
   ngOnInit() {
     setTimeout(async () => {
       let d:any = await this.storage.getDistricts();
-      if(d) {
-        this.districts = d;
+      if(d) { this.districts = d; }
+
+      let app_user:any = localStorage.getItem('ems_app_user');
+      if(app_user) {
+        this.app_user = JSON.parse(app_user);
+        this.pageLoading = false;
+        if(this.app_user?.district_id) {
+          this.voterForm.controls['district'].setValue(this.app_user.district_id);
+          this.onDistrictChange(this.app_user.district_id);
+          if(this.app_user.district != 'lucknow') {
+              let w:any = await this.storage.getWardsByDistric(this.app_user.district_id);
+              if(w) { this.wards = w; }
+              this.voterForm.controls['area'].setValue('R');
+          } 
+        }
       }
-      console.log(this.districts);
     }, 1000);
   }
 
@@ -285,14 +299,14 @@ export class VoterAddPage implements OnInit {
 
       this.showLoading();
       
-      let uid = this.generateVoterUID(this.voterForm.value);
-      if(uid) {
-        this.voterForm.controls['voter_uid'].setValue(uid);
-      }
+      // let uid = this.generateVoterUID(this.voterForm.value);
+      // if(uid) {
+      //   this.voterForm.controls['voter_uid'].setValue(uid);
+      // }
 
       const formData = this.voterForm.value;
 
-      console.log(uid);
+      // console.log(uid);
       console.log(formData);
 
       setTimeout(() => {

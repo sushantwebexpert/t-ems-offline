@@ -10,6 +10,7 @@ export interface District {
 export interface VidhanSabha {
   id: string;
   district_id: string;
+  vidhan_sabha_number: string;
   name_en: string;
   name_hi: string;
 }
@@ -17,6 +18,7 @@ export interface VidhanSabha {
 export interface Ward {
   id: string;
   vidhan_sabha_id: string;
+  district_id: string;
   name_en: string;
   name_hi: string;
 }
@@ -83,8 +85,8 @@ export class DexieService extends Dexie {
 
       this.version(1).stores({
         districts: 'id, name_en, name_hi',
-        vidhan_sabhas: 'id, district_id, name_en, name_hi',
-        wards: 'id, vidhan_sabha_id, name_en, name_hi',
+        vidhan_sabhas: 'id, district_id, vidhan_sabha_number, name_en, name_hi',
+        wards: 'id, vidhan_sabha_id, district_id, name_en, name_hi',
         mohallas: 'id, ward_id, vidhan_sabha_id, name_en, name_hi, area',
         voters: '++id, mobile_no, voter_uid, vidhan_sabha_id, ward_id, mohalla_id, is_synced',
       });
